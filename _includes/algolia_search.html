@@ -1,50 +1,47 @@
 <style>
-    #search-searchbar{
-      width: 100%;
-      text-align: center;
-      margin-top: 20px;
-    }
+  #search-searchbar {
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
 
-    .ais-search-box {
+  .ais-search-box {
     margin-top: 15px;
     margin-bottom: 15px;
-}
+  }
 
-.ais-hits--item{
-    float:left;
- }
- #search-container{
-     width: 100%;
- }
+  .ais-hits--item {
+    float: left;
+  }
 
+  #search-container {
+    width: 100%;
+  }
 </style>
-    
-    <script>
-    /* Instanciating InstantSearch.js with Algolia credentials */
-    const search = instantsearch({
-      appId: '{{ site.algolia.application_id }}',
-      indexName: '{{ site.algolia.index_name }}',
-      apiKey: '{{ site.algolia.search_only_api_key }}'
-    });
-    
-    search.addWidget(
-      instantsearch.widgets.searchBox({
-        container: '#search-searchbar',
-        placeholder: 'Search into posts...',
-        poweredBy: true
-      })
-    );
-    
-    search.addWidget(
-      instantsearch.widgets.hits({
-        container: '#search-hits',
-        templates: {
-          item: function(hit) {
-            return `
+<script>
+  /* Instanciating InstantSearch.js with Algolia credentials */
+  const search = instantsearch({
+    appId: '{{ site.algolia.application_id }}',
+    indexName: '{{ site.algolia.index_name }}',
+    apiKey: '{{ site.algolia.search_only_api_key }}'
+  });
+  search.addWidget(
+    instantsearch.widgets.searchBox({
+      container: '#search-searchbar',
+      placeholder: 'Search into posts...',
+      poweredBy: true
+    })
+  );
+  search.addWidget(
+    instantsearch.widgets.hits({
+      container: '#search-hits',
+      templates: {
+        item: function (hit) {
+          return `
                         <div class="card blog-post">
                             <img class="card-img-top" src="${ hit.thumbnail }" alt="${ hit.title }">
                             <div class="card-body center">
-                                <img src="/assets/img/{{ site.author_logo }}" class="author-profile-img">
+                                <img src="/theme/{{ site.author_logo }}" class="author-profile-img">
                                 <h4 class="card-title">${ hit.title }</h4>
     
                                 <h6 class="card-subtitle mb-2 text-muted">${moment.unix(hit.date).format('MMM D, YYYY')}</h6>
@@ -56,11 +53,9 @@
                             </div>
                         </div>
             `;
-          }
         }
-      })
-    );
-    
-    search.start();
-    
-    </script>
+      }
+    })
+  );
+  search.start();
+</script>
