@@ -1,8 +1,7 @@
 {
   "manifest_version": 2,
-  "short_name": "Astartup",
   "name": "Astartup",
-  "description": "Mission Control Center browser extension for the A* Startup Network and Astartup Live-stream.",
+  "description": "Astartup Mission Control Center browser extension.",
   "version": "0.0.1",
   "background": {
     "scripts": [

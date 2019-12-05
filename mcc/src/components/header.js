@@ -18,7 +18,7 @@ function ComponentHeader() {
             </h1>
             <div class="oversight-nav" style="vertical-align: bottom;">
               <ul>
-                <li><a href="https://github.com/a-startup/livestream"><i class="fab fa-github"></i></a></li>
+                <li><a href="https://github.com/a-startup"><i class="fab fa-github"></i></a></li>
                 <li><a href="">Description</a></li>
                 <li><a href="">Mission and Vision</a></li>
                 <li><a href="">Status</a></li>
