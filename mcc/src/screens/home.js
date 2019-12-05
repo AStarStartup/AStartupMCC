@@ -1,4 +1,7 @@
 import React, {StyleSheet} from 'react';
+import Repo from '../components/repo.js'
+import Stream from '../components/stream.js'
+import Sidebar from '../components/sidebar.js'
 
 function ScreenHome() {
   return (
