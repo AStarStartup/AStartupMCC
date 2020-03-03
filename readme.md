@@ -1,6 +1,6 @@
 # [Astartup Toolkit](https://github.com/a-startup/astartup.toolkit)
 
-The Astartup API and Mission Control Center browser extension and the Format for a Startup Syndication specification.
+This repository contains the Astartup React.JS Framework, [Mission Control Center browser extension](./mcc), and the [Simple Startup Syndication specification](./sss).
 
 ## Quick Links
 
@@ -13,6 +13,6 @@ The mission of the Astartup Toolkit™ is to provide you with the tools your sta
 
 ## License
 
-Copyright © 2019 [Kabuki Starship™](https://kabukistarship.com).
+Copyright © 2019-20 [Kabuki Starship™](https://kabukistarship.com).
 
 This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <https://mozilla.org/MPL/2.0/>.
