@@ -1,9 +1,12 @@
-# Astartup Mission Control Center
+# Assignment
 
-The Astartup Mission Control Center (MCC) is a browser extension for creating and managing Astartup Estuaries™ and performing Issue-driven Development with I am You Language™ (IMUL™). For instructions on how to ue the MCC, please read the [Mission Control Center chapter of the Astartup Cookbook](https://github.com/a-startup/blob/master/astartup.cookbook/mcc).
-
-## License
-
-Copyright © 2019 [Kabuki Starship™](https://kabukistarship.com).
-
-This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at <https://mozilla.org/MPL/2.0/>.
+* Create TWO new components: UserInput and UserOutput.
+* UserInput should hold an input element, UserOutput two paragraphs.
+* Output multiple UserOutput components in the App component (any paragraph texts of your choice).
+* Pass a username (of your choice) to UserOutput via props and display it there.
+* Add state to the App component (=> the username) and pass the username to the UserOutput component.
+* Add a method to manipulate the state (=> an event-handler method).
+* Pass the event-handler method reference to the UserInput component and bind it to the input-change event.
+* Ensure that the new input entered by the user overwrites the old username passed to UserOutput.
+* Add two-way-binding to your input (in UserInput) to also display the starting username.
+* Add styling of your choice to your components/ elements in the components - both with inline styles and stylesheets.
