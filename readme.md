@@ -4,7 +4,7 @@ This repository contains the Astartup React.JS Framework, [Mission Control Cente
 
 ## Quick Links
 
-* [Astartup Cookbook](https://github.com/AStarStartup/AstartupCookbook) - An open-source book that teaches you to invent, launch, and run a modern startup with IDD and IMUL.
+* [Astartup Cookbook](https://github.com/AStarStartup/AstartupCookbook) - An open-source book that teaches you to invent, launch, and run a modern startup with Issue-driven Development (IDD) and I am You Language (IMUL).
 * [astartup.net](https://astartup.net) - The A* Startup Network website is an online version of the Astartup Mission Control Center.
 
 ## Mission and Vision

@@ -1,4 +1,4 @@
-import React, {StyleSheet} from 'react';
+import React, {StyleSheet} from './node_modules/react';
 
 function ComponentFooter() {
   return (
