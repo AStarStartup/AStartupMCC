@@ -1,14 +1,11 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentFooter() {
+const ComponentFooter = (Props) => {
   return (
     <footer>
-  <p> Copyright 2015-9 © Kabuki Starship™; all rights reserved.</p>
-</footer>
+      <p> Copyright 2015-20 © Kabuki Starship™; all rights reserved.</p>
+    </footer>
   );
 }
-
-const styles = StyleSheet.create({
-});
 
 export default ComponentFooter;

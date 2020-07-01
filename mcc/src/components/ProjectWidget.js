@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentProjectWidget() {
+const ComponentProjectWidget = (Props) => {
   return (
     
   );

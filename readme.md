@@ -9,7 +9,7 @@ This repository contains the Astartup React.JS Framework, [Mission Control Cente
 
 ## Mission and Vision
 
-The mission of the Astartup Toolkit is to provide you with the tools your startup needs to innovate and compete in the international market. Our vision is to make your startup an A startup with the A* Startup.
+The Mission of the Astartup is to navigate your startup to success. Our vision is to make your startup an A startup.
 
 ## License
 

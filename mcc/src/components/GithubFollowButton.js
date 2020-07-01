@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentGitHubFollowButton() {
+const ComponentGitHubFollowButton = (Props) => {
   return (
     <!-- Place this tag where you want the button to render. -->
 <a class="github-button" href="https://github.com/{{site.github_username}}" data-size="large" data-show-count="true"

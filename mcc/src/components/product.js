@@ -1,19 +1,16 @@
-import React, {StyleSheet} from 'react';
+import React from 'react';
 
-function ComponentProject() {
+const ComponentProject = (Props) => {
   return (
     <div class="blog-post card product">
-  <img src="{{ product.image }}" alt="{{ product.name }} product image" class="product__image card-img-top">
-  <div class="product__information">
-    <h2 class="product__title">{{ product.name }}</h2>
-    <p class="product__description">{{ product.content | remove: '<p>' | remove: '</p>' }}</p>
-    {% include product_definition.html %}
-  </div>
-</div>
+      <img src="{{ Props.Product.image }}" alt="{{ product.name }} product image" class="product__image card-img-top">
+      <div class="product_information">
+        <h2 class="product_title">{{ product.name }}</h2>
+        <p class="product_description">{ Props.product.content | remove: '<p>' | remove: '</p>' }</p>
+        <ProductDefinition />
+      </div>
+    </div>
   );
 }
-
-const styles = StyleSheet.create({
-});
 
 export default ComponentProject;

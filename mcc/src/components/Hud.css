@@ -1,0 +1,43 @@
+.Hud {
+  text-align: center;
+}
+
+.Red {
+  color: red;
+}
+
+.Bold {
+  font-weight: bold;
+}
+
+.Italics {
+  font-weight: italics;
+}
+
+.Hud button {
+  background-color: green;
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.Hud button:hover {
+  background-color: lightgreen;
+  color: black;
+}
+
+.Hud button.Red {
+  background-color: red;
+  color: white;
+  font: inherit;
+  border: 1px solid blue;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.Hud button.Red:hover {
+  background-color: salmon;
+  color: black;
+}

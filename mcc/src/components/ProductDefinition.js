@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React, {StyleSheet} from 'react';
 
-function ComponentProductDefinition() {
+const ComponentProductDefinition = (Props) => {
   return (
     <button class="buy-button snipcart-add-item btn-success" data-item-id="{{ product.identifier }}"
   data-item-name="{{ product.name }}" data-item-price="{{ product.price }}" data-item-image="{{ product.image }}"

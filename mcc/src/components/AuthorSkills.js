@@ -1,9 +1,9 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentAuthorSkills() {
+const ComponentAuthorSkills = (Props) => {
   return (
-  <p> Modern Embedded-C++, Script2, I am You Language (IMUL) </p>
-<p> A-Star</p>
+    <p> Modern Embedded-C++, Script2, I am You Language (IMUL) </p>
+    <p> A-Star</p>
   );
 }
 

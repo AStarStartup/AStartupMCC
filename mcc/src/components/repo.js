@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentRepo() {
+const ComponentRepo = (Props) => {
   return (
     <div class="repo-streams">
   <img src="/p/astartup.livestream.logo.png" class="repo-logo" />

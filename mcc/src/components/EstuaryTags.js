@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentEstuaryTag() {
+const ComponentEstuaryTag = (Props) => {
   return (
     {% for tag in site.tags %} {% capture tag_name %}{{ tag | first }}{% endcapture %}
 <div id="#{{ tag_name | slugize }}"></div>
