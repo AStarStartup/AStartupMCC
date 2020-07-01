@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentEstuarySidebar() {
+const ComponentEstuarySidebar = (Props) => {
   return (
     <div class="col-lg-4">
   <div class="card">

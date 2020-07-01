@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentHeader() {
+const ComponentHeader = (Props) => {
   return (
     <div className="App">
       <header className="App-header">

@@ -1,9 +1,7 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentEstuaryPostComments() {
-  return (
-<script>
-  var disqus_config = function () {
+const ComponentEstuaryPostComments = (Props) => {
+  let disqus_config = function () {
     this.page.url = "{{ site.url }}{{ page.url }}"; /* Replace PAGE_URL with your page's canonical URL variable */
     this.page.identifier = "{{ page.id }}"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
   };
@@ -15,11 +13,6 @@ function ComponentEstuaryPostComments() {
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
   })();
-</script>
-<noscript>Please enable JavaScript to view the
-  <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
-  );
 }
 
 const styles = StyleSheet.create({

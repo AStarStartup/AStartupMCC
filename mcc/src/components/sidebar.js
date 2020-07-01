@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentSidebar() {
+const ComponentSidebar = (Props) => {
   return (
     <div class="card">
   {%- include qr-login.html -%}

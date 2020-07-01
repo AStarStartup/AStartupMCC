@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Classes from './App.module.css';
 import Radium, { StyleRoot } from 'radium';
-import Accounts from './Components/Accounts/Accounts';
+import Accounts from './Components/Accounts';
 import UserInput from './Components/UserInput';
 import AccountValidator from './Components/AccountValidator';
-import Hud from './Components/Hud/Hud'
+import Hud from './Components/Hud';
+import AuthContext from './Context/auth-context';
 
 class App extends Component {
+  
   constructor(Props) {
     super(Props);
     console.log('[App.js] constructor');
@@ -20,27 +22,42 @@ class App extends Component {
       { Username: 'Foo',  ID: 1, Name: 'Mr Foo',     Password: '1' },
       { Username: 'Bar',  ID: 2, Name: 'Mr Bar',     Password: '2' },
     ],
-    ShowAccounts: true
+    ShowAccounts: true,
+    ShowHud: true,
+    Authentic: false,
   };
 
   static getDerivedStateFromProps(Props, State) {
     console.log('[App.js] getDerivedStateFromProps', Props);
     return State;
   }
+
+  componentDidMount() {
+    console.log('[App.js] Component did mount.');
+  }
+
+  shouldComponentUpdate(NextProps, NextState) {
+    console.log('[App.js] shouldComponentUpdate');
+    return true;
+  };
+
+  componentDidUpdate(PrevProps, PrevState, Snapshot) {
+     console.log('[App.js] componentDidUpdate');
+  }
   
-  HandleAccountNameChange = (event, id) => {
-    const AccountIndex = this.state.Accounts.findIndex(p => {
-      return p.id === id;
+  HandleAccountNameChange = (Event, Id) => {
+    const AccountIndex = this.state.Accounts.findIndex(P => {
+      return P.Id === Id;
     });
 
     const Target = { ...this.state.Accounts[AccountIndex]};
 
-    Target.Name = event.target.value;
+    Target.Name = Event.target.value;
 
     const Accounts = [...this.state.Accounts];
     Accounts[AccountIndex] = Target;
 
-    this.setState({Accounts: event.target.Accounts});
+    this.setState({Accounts: Event.target.Accounts});
   }
 
   HandleAccountDelete = (AccountIndex) => {
@@ -56,6 +73,10 @@ class App extends Component {
     this.setState({ShowAccounts: VisibleState});
   }
 
+  HandleLogin = () => {
+    this.setState({Authenticated: true});
+  }
+
   render() {
 
     let AccountsView = null;
@@ -64,19 +85,26 @@ class App extends Component {
         <Accounts 
           Accounts={this.state.Accounts}
           Click={this.HandleAccountDelete}
-          Change={this.HandleAccountNameChange} />
+          Change={this.HandleAccountNameChange}
+          Authentic={this.state.Authentic} />
       );
     }
     
     return (
       <StyleRoot>
         <div className={Classes.App}>
-          <Hud 
-            AppTitle={this.state.AppTitle}
-            ShowAccounts={this.state.ShowAccounts}
-            Accounts={this.state.Accounts}
-            Clicked={this.HandleToggleShowAccounts} />
-          {AccountsView}
+          <button onClick={() => {
+            this.setState({ ShowHud: false });
+          }}>{this.state.ShowHud ? 'Hide' : 'Show'} Hud</button>
+          <AuthContext.Provider value={{Authentic: false, Login: this.LoginHandler}}>            
+            { this.state.ShowHud ? (<Hud 
+              AppTitle={this.state.AppTitle}
+              ShowAccounts={this.state.ShowAccounts}
+              AccountCount={this.state.Accounts.length}
+              Accounts={this.state.Accounts}
+              Clicked={this.HandleToggleShowAccounts} />) : null}
+            {AccountsView}
+          </AuthContext.Provider>
         </div>
       </StyleRoot>
     );

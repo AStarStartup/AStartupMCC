@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentContactForm() {
+const ComponentContactForm = (Props) => {
   return (
     
 <form action="https://formspree.io/{{ site.formspree_email }}" method="POST">

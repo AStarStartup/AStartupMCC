@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentStream() {
+const ComponentStream = (Props) => {
   return (
     <div class="repo-stream">
   <div class="widget-toolbar">

@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentQrLogin() {
+const ComponentQrLogin = (Props) => {
   return (
     import React, {Component} from 'react';
     import logo from './logo.svg';

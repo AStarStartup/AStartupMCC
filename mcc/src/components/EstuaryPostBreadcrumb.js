@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentEstuaryPostBreadcrumb() {
+const ComponentEstuaryPostBreadcrumb = (Props) => {
   return (
     <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">

@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function ComponentEstuaryPostArticle() {
+const ComponentEstuaryPostArticle = (Props) => {
   return (
 <article class="card" itemscope itemtype="http://schema.org/BlogPosting">
   <div class="card-header">

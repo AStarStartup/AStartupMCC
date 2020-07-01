@@ -1,6 +1,6 @@
-import React, {StyleSheet} from './node_modules/react';
+import React from 'react';
 
-function TwitterFollowButton() {
+const TwitterFollowButton = (Props) => {
   return (
     <a href="https://twitter.com/{{site.twitter_username}}?ref_src=twsrc%5Etfw" class="twitter-follow-button"
   data-size="large" data-show-count="true">Follow @{{site.twitter_username}}</a>
