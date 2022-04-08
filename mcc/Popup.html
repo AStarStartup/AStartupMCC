@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AStartup Mission Control Center: Launchpad</title>
+    <script src="jquery-3.5.1.min.js"></script>
+    <script src="jscolor.js"></script>
+    <script src="Popup.js"></script>
+    <link rel="stylesheet" type="text/css" href="Style.css">
+    <style>
+      body{
+        min-width: 250px;
+        min-height: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Budget Manager</h1>
+    <div class="Popup" onclick="TogglePopup()">Click me!
+      <span class="PopupText" id="TestPopup">Popup text...</span>
+    </div>
+    <h2>Total: <span id="Total">0</span></h2>
+    <h2>Limit: <span id="Limit">0</span></h2>
+    <h3>Enter Amount</h3>
+    <input type="text" id="Amount">
+    <input type="submit" id="Buy" value="Buy">
+    <h2>Color</h2>
+    <input type="text" id="fontColor" class="jscolor" value="ffcc00">
+  </body>
+</html>
