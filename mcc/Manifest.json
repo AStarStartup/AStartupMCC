@@ -1,0 +1,33 @@
+{
+  "manifest_version": 3,
+  "name": "AStartup Mission Control Center",
+  "version": "0.0.1",
+  "icons": {
+    "128": "icon128.png",
+    "48": "icon48.png",
+    "16": "icon16.png"
+  },
+  "browser_action": {
+    "default_icon": "icon16.png",
+    "default_popup": "Popup.html",
+    "default_title": "PageFontStyle"
+  },
+  "options_page": "Options.html",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://developer.chrome.com/*"],
+      "js": ["Content.js", "jquery-3.5.1.min.js"],
+      "css": ["Content.css"]
+    }
+  ],
+  "permissions": [
+    "notifications",
+    "tts",
+    "storage",
+    "contextMenus"
+  ]
+}
