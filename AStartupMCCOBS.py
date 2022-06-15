@@ -13,19 +13,32 @@ def DateTimeUpdate():
   now = datetime.datetime.now()
 
   source = obs.obs_get_source_by_name("DateWeekdayMonthDayYear")
+  date_string = now.strftime("%A, %B %d, %Y")
+  time_string = now.strftime("%Y-%m-%d;%I:%M %p WST")
+
   if source is not None:
     settings = obs.obs_data_create()
-    obs.obs_data_set_string(settings, "text", now.strftime("%A, %B %d, %Y"))
+    obs.obs_data_set_string(settings, "text", date_string)
     obs.obs_source_update(source, settings)
     obs.obs_data_release(settings)
     obs.obs_source_release(source)
   else:
     print("\nError: You must create a Text with the handle 'DateWeekdayMonthDayYear'.")
+
+  source = obs.obs_get_source_by_name("DateThumbnail")
+  if source is not None:
+    settings = obs.obs_data_create()
+    obs.obs_data_set_string(settings, "text", date_string)
+    obs.obs_source_update(source, settings)
+    obs.obs_data_release(settings)
+    obs.obs_source_release(source)
+  else:
+    print("\nError: You must create a Text with the handle 'DateThumbnail'.")
     
   source = obs.obs_get_source_by_name("DateTimeMinutes")
   if source is not None:
     settings = obs.obs_data_create()
-    obs.obs_data_set_string(settings, "text", now.strftime("%Y-%m-%d;%I:%M %p WST"))
+    obs.obs_data_set_string(settings, "text", time_string)
     obs.obs_source_update(source, settings)
     obs.obs_data_release(settings)
     obs.obs_source_release(source)
