@@ -13,6 +13,7 @@
 
 # Node.js files
 /node_modules
+/node_distribution
 /.pnp
 .pnp.js
 

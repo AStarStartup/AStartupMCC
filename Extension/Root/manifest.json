@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "AStartup Mission Control Center",
+  "description": "A mission-driven development live streaming control center for your life, projects, and startup.",
+  "version": "0.0.0",
+  "icons": {
+    "128": "Icon128.png",
+    "48": "Icon48.png",
+    "16": "Icon16.png"
+  },
+  "action": {
+    "default_icon": {
+      "128": "Icon128.png",
+      "48": "Icon48.png",
+      "16": "Icon16.png"
+    },
+    "default_title": "AStartup MCC",
+    "default_popup": "Popup.html"
+  },
+  "options_page": " Options.html",
+  "background": {
+    "service_worker": "Background.js"
+  },
+  "permissions": [
+    "alarms",
+    "contextMenus",
+    "notifications",
+    "search",
+    "storage",
+    "tabs",
+    "tts"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["Content.js"]
+    }
+  ]
+}
