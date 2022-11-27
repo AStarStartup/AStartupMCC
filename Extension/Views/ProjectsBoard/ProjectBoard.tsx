@@ -13,15 +13,15 @@ const itemsFromBackend = [
 
 const columnsFromBackend = {
   [uuidv4()]: {
-    name: "Requested",
+    name: "Cold",
     items: itemsFromBackend
   },
   [uuidv4()]: {
-    name: "To do",
+    name: "Warm",
     items: []
   },
   [uuidv4()]: {
-    name: "In Progress",
+    name: "Hot",
     items: []
   },
   [uuidv4()]: {
@@ -77,7 +77,8 @@ const ProjectsBoard = (props: {
   const [Columns, ColumnsSet] = useState(columnsFromBackend)
   
   return (
-    <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
+    <div key="ProjectsBoard"
+        style={{ display: "flex", justifyContent: "center", height: "100%" }}>
       <DragDropContext
         onDragEnd={result => OnDragEnd(result, Columns, ColumnsSet)}
       >
