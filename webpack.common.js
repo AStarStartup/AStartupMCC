@@ -33,7 +33,7 @@ module.exports = {
     new CopyPlugin ({
       patterns: [
         {
-          from: path.resolve("Extension/Root"),
+          from: path.resolve("ExtensionRoot"),
           to: path.resolve("node_distribution")
         }
       ]

@@ -9,10 +9,13 @@ import JoinInnerIcon from '@mui/icons-material/JoinInner';
 import JoinRightIcon from '@mui/icons-material/JoinRight';
 import JoinFullIcon from '@mui/icons-material/JoinFull';
 import TaskIcon from '@mui/icons-material/Task';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
-import OptionsEditor from '../../Components/OptionsEditor'
-import { ModelDataOptions, ModelDataOptionsGet } 
+import OptionsEditor from '../OptionsEditor'
+import { ModelDataCommandStructureDefault, ModelDataOptions, 
+         ModelDataOptionsDefault, ModelDataOptionsGet } 
   from '../../Mutators/ModelData'
+import IncidentCommand from '../IncidentCommand';
  
 const OptionsView = () => {
   console.log('[OptionsView].Begin')
@@ -24,14 +27,18 @@ const OptionsView = () => {
     Intake,
     CentralCommand,
     MissionControl,
-    PublicLiaison
+    Estuary,
+    Post
   }
-
+ 
+  const [CommandStructure, CommandStructureSet] = 
+    useState(ModelDataCommandStructureDefault)
   const [Visible, VisibleSet] = useState(false)
   const [State, StateSet] = useState(0)
   const [IsSaving, IsSavingSet] = useState(false)
   const [Mode, ModeSet] = useState(Modes.Options)
-  const [Options, OptionsSet] = useState<ModelDataOptions | null>(null)
+  const [Options, OptionsSet] = 
+    useState<ModelDataOptions | null>(ModelDataOptionsDefault)
   
   useEffect(() => {
     console.log('[useEffect]')
@@ -59,7 +66,7 @@ const OptionsView = () => {
     }
   };
 
-  const [App, Dispatch] = useReducer(ReduceState, { prop1: null, prop2: null})
+  const [AppState, Dispatch] = useReducer(ReduceState, { prop1: null, prop2: null})
 
   if (Options == null || Options == undefined) return null
   
@@ -72,17 +79,17 @@ const OptionsView = () => {
           <img id="PageImage" src="./Icon128.png" />
           <div>
           { Mode == Modes.Intake &&
-            <Tooltip title="Options">
-              <Button disabled><JoinLeftIcon /></Button>
+            <Tooltip title="Liaison">
+              <Button><JoinLeftIcon /></Button>
             </Tooltip>
           }{ Mode != Modes.Intake &&
-            <Tooltip title="Options">
+            <Tooltip title="Liaison">
               <Button onClick={() => ModeSet(Modes.Intake)}>
                 <JoinLeftIcon /></Button>
             </Tooltip>
           }{ Mode == Modes.CentralCommand &&
             <Tooltip title="Central Command">
-              <Button disabled><JoinInnerIcon /></Button>
+              <Button><JoinInnerIcon /></Button>
             </Tooltip>
           }{ Mode != Modes.CentralCommand &&
             <Tooltip title="Central Command">
@@ -91,25 +98,34 @@ const OptionsView = () => {
             </Tooltip>
           }{ Mode == Modes.MissionControl &&
             <Tooltip title="Mission Control">
-              <Button disabled><JoinRightIcon /></Button>
+              <Button><JoinRightIcon /></Button>
             </Tooltip>
           }{ Mode != Modes.MissionControl &&
             <Tooltip title="Mission Control">
               <Button onClick={() => ModeSet(Modes.MissionControl)}>
                 <JoinRightIcon /></Button>
             </Tooltip>
-          }{ Mode == Modes.PublicLiaison &&
+          }{ Mode == Modes.Estuary &&
             <Tooltip title="Mission Control">
-              <Button disabled><JoinFullIcon /></Button>
+              <Button><JoinFullIcon /></Button>
             </Tooltip>
-          }{ Mode != Modes.PublicLiaison &&
+          }{ Mode != Modes.Estuary &&
             <Tooltip title="Mission Control">
-              <Button onClick={() => ModeSet(Modes.PublicLiaison)}>
+              <Button onClick={() => ModeSet(Modes.Estuary)}>
                 <JoinFullIcon /></Button>
+            </Tooltip>
+          }{ Mode == Modes.Post &&
+            <Tooltip title="Post">
+              <Button><PostAddIcon /></Button>
+            </Tooltip>
+          }{ Mode != Modes.Post &&
+            <Tooltip title="Post">
+              <Button onClick={() => ModeSet(Modes.Post)}>
+                <PostAddIcon /></Button>
             </Tooltip>
           }{ Mode == Modes.Options &&
             <Tooltip title="Mission Control">
-              <Button disabled><SettingsIcon /></Button>
+              <Button><SettingsIcon /></Button>
             </Tooltip>
           }{ Mode != Modes.Options &&
             <Tooltip title="Mission Control">
@@ -119,16 +135,25 @@ const OptionsView = () => {
           }
         </div>
       </div>
-      { Mode == Modes.Options &&
+      { Mode == Modes.CentralCommand &&
       <Box mx="10%" my="2%">
         <Card>
           <CardContent>
-            <OptionsEditor options={Options} dispatch={Dispatch} 
-              is_saving={IsSaving} />
+            <IncidentCommand command_structure={CommandStructure} 
+              options={Options} dispatch={Dispatch} is_saving={IsSaving} />
           </CardContent>
         </Card>
       </Box>
-      }
+      }{ Mode == Modes.Options &&
+        <Box mx="10%" my="2%">
+          <Card>
+            <CardContent>
+              <OptionsEditor options={Options} dispatch={Dispatch} 
+                is_saving={IsSaving} />
+            </CardContent>
+          </Card>
+        </Box>
+        }
     </div>
   </div>
   )

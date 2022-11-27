@@ -6,17 +6,6 @@ import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 
-const OnOffMarks = [
-  {
-    value: 0,
-    label: 'Off',
-  },
-  {
-    value: 1,
-    label: 'On',
-  }
-];
-
 const OptionsEditor = (props: {
   options: ModelDataOptions,
   dispatch: Dispatch<any>,
@@ -42,15 +31,15 @@ const OptionsEditor = (props: {
     event: React.MouseEvent<HTMLElement>,
     value: string
   ) => {
-    ContentScriptsSet(value == 'Enabled' ? 'Disabled' : 'Enabled');
-  };
+    ContentScriptsSet(value == 'Enabled' ? 'Disabled' : 'Enabled')
+  }
   
   const MetricUnitsChange = (
     event: React.MouseEvent<HTMLElement>,
     value: string
   ) => {
-    ContentScriptsSet( 'Standard' ? 'Imperial' : 'Standard');
-  };
+    MetricUnitsSet( 'Standard' ? 'Imperial' : 'Standard')
+  }
 
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
