@@ -140,37 +140,37 @@ export const ModelDataCommandStructureDefault = {
     ['PublicInformation']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['Liaison']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['Safety']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['Operations']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['Planning']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['Logistics']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     },
     ['FinanceAdmin']: {
       'master': null,
       'contact': {},
-      'supervisors': 'Commander',
+      'supervisors': null,
     }
   } 
 }

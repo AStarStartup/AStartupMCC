@@ -48,16 +48,16 @@ chrome.runtime.onInstalled.addListener(() => {
 
   chrome.alarms.create("FeedUpdate", {
     periodInMinutes: 1/60,
-  });
+  })
 
   chrome.contextMenus.create({
     "id": "FeedAddSelectionContextMenu",
     "title": "Add selection to feed.",
     "contexts": ["selection"]
-  });
+  })
 
   chrome.contextMenus.create({
     "id": "FeedAddPageContextMenu",
     "title": "Add current page to feed."
-  });
+  })
 })

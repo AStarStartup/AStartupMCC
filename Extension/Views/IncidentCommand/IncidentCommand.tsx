@@ -2,9 +2,9 @@ import { ModelDataOptions } from '../../Mutators/ModelData'
 import React, { Dispatch, useState } from "react"
 import { Box, Button, Grid, TextField, Typography } 
   from '@material-ui/core'
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import Checkbox from '@mui/material/Checkbox'
 
 const IncidentCommand = (props: {
   command_structure: Object,
@@ -19,12 +19,6 @@ const IncidentCommand = (props: {
   if (username     == undefined) return null
   let command_roles = command_structure['command_roles']
   if (command_roles == undefined) return null
-
-  let i = 0
-  Object.keys(command_roles).map((key) => {
-    console.log(i + ': ' + key)
-    i++
-  })
   
   const [Role, RoleSet] = useState('Commander')
   console.log("Role: " + Role)
