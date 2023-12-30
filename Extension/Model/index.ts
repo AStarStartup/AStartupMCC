@@ -2,19 +2,26 @@ import { v4 as uuidv4 } from 'uuid'
 
 export const UsernameDefault = 'CookingWithCale'
 
+/* Data model options that do not get synced with the server. */
+export interface ModelAppState {
+}
+
 /* Options that when changed triggers the DOM to rerender? */
 export interface ModelDataOptions {
-  username?: string           //< AStartup username.
+  // App State
   modal_visible: boolean      //< Modal is visible flag.
   modal_state: number         //< State of the modal.
   content_scripts: boolean    //< Content scripts enabled.
+  // Options
+  username?: string           //< AStartup username.
   metric_units?: boolean      //< Standard (true) or Imperial units.
   crew: string                //< Default crew.
   session?: string            //< Current session number.
   project?: string            //< Current project name.
   mission?: string            //< Current mission number.
-  session_focus_length_max?: string //< Max length of a session focus heading.
 }
+
+const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
 
 export interface ModelData {
   options?: ModelDataOptions  //< Model data options.

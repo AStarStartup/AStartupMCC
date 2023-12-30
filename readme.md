@@ -5,13 +5,21 @@ The AStartup Mission Control Center is a browser extension and OBS plugin for A-
 * [AStartup Cookbook](https://github.com/AStarStartup/AStartupCookbook) - An open-source book that teaches you to invent, launch, and run a modern startup with Mission-driven Development (IDD) and I am You Language (IMUL) on GitHub.
 * [astartup.net](https://astartup.net) - The A* Startup Network website.
 
-## Mission and Vision
+## Vision
 
 The Mission of the Astartup is to navigate your startup through the shortest possible path to success. Our vision is to make your startup an A startup.
 
+## Mission
+
+The Mission of the AStartup MCC is:
+
+1. Facilitate employee clock on and off using browser extension popup widget.
+2. Select a repository to work on and a current MDD (Mission-Driven Development) Mission Ticket you are on, show and add comments to GitHub Issue Ticket.
+3. Create a GitHub Pages Next.JS statically generated website using GitHub Actions that displays a list of your GitHub repositories that use MDD, displays each repo's open Issue tickets, and a Gantt chart that displays the Milestones and Mission Tickets.
+
 ## License
 
-Copyright ©2019-22 [AStartup](https://astartup.net)™; most rights reserved, Open-source theft prohibited, closed-source commercial use allowed, licensed under the Kabuki Weak Source-available License that YOU MUST CONSENT TO at <https://github.com/AStarStartup/AStartupMCC>.
+Copyright [AStartup](https://astartup.net)™; most rights reserved, Open-source theft prohibited, closed-source commercial use allowed, licensed under the Kabuki Weak Source-available License that YOU MUST CONSENT TO at <https://github.com/AStarStartup/AStartupMCC>.
 
 ### Legal Agreement
 

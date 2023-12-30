@@ -7,8 +7,8 @@ module.exports = {
   entry: {
     Popup: path.resolve('Extension/Views/Popup/Popup.tsx'),
     Options: path.resolve('Extension/Views/Options/Options.tsx'),
-    Background: path.resolve('Extension/Mutators/Background/Background.ts'),
-    Content: path.resolve("Extension/Mutators/Content/Content.tsx")
+    Background: path.resolve('Extension/Ctlrs/Background/Background.ts'),
+    Content: path.resolve("Extension/Ctlrs/Content/Content.tsx")
   },
   module: {
     rules: [{

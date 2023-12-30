@@ -1,23 +1,18 @@
 {
   "name": "astartupmcc",
-  "version": "0.0.0",
-  "description": "GitHub Mission-driven development startup control center Chrome extension and OBS live coding, remote employee monitoring, and tutorial video creator plugin with IMUL and Octocat",
+  "version": "0.0.1",
+  "description": "Mission-driven development startup control center Chrome extension and OBS live coding, timesheet logging, employee monitoring, and video creation tool with IMUL, Script2, and pen and paper.",
   "main": "index.js",
   "scripts": {
+    "github": "GITHUB_TOKEN=$GITHUB_TOKEN node cli.js",
     "start": "webpack --watch --progress --config webpack.development.js",
     "build": "webpack --watch --progress --config webpack.production.js"
   },
   "author": "AStartup",
-  "license": "Copyright 2019-22 AStartup™; most rights reserved, Open-source theft prohibited, closed-source commercial use allowed, licensed under the Kabuki Weak Source-available License that YOU MUST CONSENT TO at https://github.com/AStarStartup/AStartupMCC.",
+  "license": "Copyright AStartup™; most rights reserved, Open-source theft prohibited, closed-source commercial use allowed, licensed under the Kabuki Weak Source-available License that YOU MUST CONSENT TO at https://github.com/AStarStartup/AStartupMCC.",
   "devDependencies": {
     "@apollo/client": "^3.7.1",
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
-    "@mui/icons-material": "^5.10.9",
-    "@mui/material": "^5.10.13",
-    "@mui/x-date-pickers": "^5.0.8",
+    "@octokit/plugin-create-or-update-text-file": "^4.0.1",
     "@octokit/rest": "^19.0.5",
     "@types/chrome": "^0.0.195",
     "@types/react": "^18.0.17",
@@ -26,22 +21,18 @@
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "dayjs": "^1.11.6",
-    "graphql": "^16.6.0",
-    "mui-color-input": "^1.0.2",
+    "html-webpack-plugin": "^5.6.0",
+    "linearid": "^0.2.0",
+    "octokit": "^3.1.2",
     "react": "^18.2.0",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
-    "rss-parser": "^3.12.0",
     "style-loader": "^3.3.1",
+    "tailwindcss": "^3.3.2",
     "terser-webpack-plugin": "^5.3.5",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
-    "uuid": "^9.0.0",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-merge": "^5.8.0"
-  },
-  "dependencies": {
-    "html-webpack-plugin": "^5.5.0"
   }
 }

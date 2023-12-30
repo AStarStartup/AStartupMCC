@@ -1,4 +1,4 @@
-import { ModelDataOptions } from '../../Mutators/ModelData'
+import { ModelAppState, ModelDataOptions } from '../../Model'
 import React, { Dispatch, useState } from "react"
 import { Box, Button, Grid, TextField, Typography } 
   from '@material-ui/core'
@@ -11,9 +11,9 @@ const OptionsEditor = (props: {
   dispatch: Dispatch<any>,
   is_saving: boolean,
 }) => {
-  let { options, dispatch, is_saving } = props
-  if (options == undefined || dispatch == undefined) return null
-  let {content_scripts, metric_units, crew, username } = options
+  let { options, dispatch, is_saving } = props;
+  if (options == undefined || dispatch == undefined) return null;
+  let { content_scripts, crew, username, metric_units } = options;
   if (content_scripts == undefined || metric_units == undefined || 
       crew            == undefined || username     == undefined) return null
 
