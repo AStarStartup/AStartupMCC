@@ -5,7 +5,6 @@ title: ''
 labels: ''
 assignees: 'CookingWithCale'
 ---
-
 # 
 
 ## Problem
@@ -16,7 +15,7 @@ The problem I am addressing on this mission is...
 
 The solution that I'm addressing on this mission is...
 
-### File Affected
+### Affected Files
 
 1. `?`
 
@@ -34,8 +33,8 @@ Mission
 
 ### Sessions
 
-* CookingWithCale/CookingWithCale#9
+* CookingWithCale/.github#9
 
 ## License
 
-Copyright 2023 [AStartup](https://astartup.net); all rights reserved.
+Copyright [AStartup](https://astartup.net); all rights reserved.

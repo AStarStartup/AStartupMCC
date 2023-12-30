@@ -30,8 +30,8 @@ RequestFeature
 
 #### Sessions
 
-* CookingWithCale/CookingWithCale#2
+* CookingWithCale/.github#2
 
 ## License
 
-Copyright 2023 [AStartup](https://astartup.net); all rights reserved.
+Copyright [AStartup](https://astartup.net); all rights reserved.

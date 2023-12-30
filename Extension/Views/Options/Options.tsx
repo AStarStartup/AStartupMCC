@@ -14,7 +14,7 @@ import PostAddIcon from '@mui/icons-material/PostAdd';
 import OptionsEditor from '../OptionsEditor'
 import { ModelDataCommandStructureDefault, ModelDataOptions, 
          ModelDataOptionsDefault, ModelDataOptionsGet } 
-  from '../../Mutators/ModelData'
+  from '../../Model'
 import IncidentCommand from '../IncidentCommand';
  
 const OptionsView = () => {

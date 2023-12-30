@@ -11,7 +11,7 @@ import { ModelDataCommandStructureDefault, ModelDataCommandStructureSet,
          ModelDataProjectsHotDefault, ModelDataProjectsHotSet,
          ModelDataProjectsWarmDefault, ModelDataProjectsWarmSet,
          ModelDataProjectDefault, ModelDataProjectSet, }
-  from '../ModelData'
+  from '../../Model'
 console.log("[Background.ts]")
 
  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -47,7 +47,7 @@ chrome.runtime.onInstalled.addListener(() => {
   ModelDataProjectSet(ModelDataProjectDefault)
 
   chrome.alarms.create("FeedUpdate", {
-    periodInMinutes: 1/60,
+    periodInMinutes: 15/60,
   })
 
   chrome.contextMenus.create({
