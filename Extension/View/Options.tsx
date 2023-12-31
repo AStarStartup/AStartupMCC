@@ -1,21 +1,12 @@
-import React, { useEffect, useState, useReducer} from 'react'
-import { createRoot } from 'react-dom/client'
-import { Box, Button, Card, CardContent, Grid, TextField, Typography } 
-  from '@material-ui/core'
-import SettingsIcon from '@mui/icons-material/settings';
-import Tooltip from '@mui/material/Tooltip'
-import JoinLeftIcon from '@mui/icons-material/JoinLeft';
-import JoinInnerIcon from '@mui/icons-material/JoinInner';
-import JoinRightIcon from '@mui/icons-material/JoinRight';
-import JoinFullIcon from '@mui/icons-material/JoinFull';
-import TaskIcon from '@mui/icons-material/Task';
-import PostAddIcon from '@mui/icons-material/PostAdd';
+// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import OptionsEditor from '../OptionsEditor'
-import { ModelDataCommandStructureDefault, ModelDataOptions, 
-         ModelDataOptionsDefault, ModelDataOptionsGet } 
-  from '../../Model'
-import IncidentCommand from '../IncidentCommand';
+import React, { useEffect, useReducer, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+
+import {
+  ModelCommandStructureDefault, ModelOptions,
+  ModelOptionsDefault, ModelOptionsGet
+} from '../Model'
  
 const OptionsView = () => {
   console.log('[OptionsView].Begin')
@@ -32,24 +23,28 @@ const OptionsView = () => {
   }
  
   const [CommandStructure, CommandStructureSet] = 
-    useState(ModelDataCommandStructureDefault)
+    useState(ModelCommandStructureDefault)
   const [Visible, VisibleSet] = useState(false)
   const [State, StateSet] = useState(0)
   const [IsSaving, IsSavingSet] = useState(false)
   const [Mode, ModeSet] = useState(Modes.Options)
   const [Options, OptionsSet] = 
-    useState<ModelDataOptions | null>(ModelDataOptionsDefault)
+    useState<ModelOptions | null>(ModelOptionsDefault)
+
+  const SaveButtonStyles = 'block mt-10 border-none outline-none'
+                         + 'rounded-md p-4 bg-violet-500 font-bold'
+                         + 'cursor-pointer';
   
   useEffect(() => {
     console.log('[useEffect]')
-    ModelDataOptionsGet().then(options_new => OptionsSet(options_new))
+    ModelOptionsGet().then(options_new => OptionsSet(options_new))
   }, [])
-
+  
   const ReduceState = (state, action) => {
     let type = action.type
     console.log('[OptionsView.ReduceState]: ' + type)
     switch (type) {
-      case "Options":
+      case 'Options':
         return state.map((state_prior) => {
           ///if (state_prior.id === action.id) {
           ///  return { ...state_prior, complete: !state_prior.complete };
@@ -72,12 +67,28 @@ const OptionsView = () => {
   
   return (
     <div id='Root'>
-      <div id="RootMidground" />
-      <div id="RootForeground" />
-      <div id="RootBackground">
-        <div id="PageHeader">
-          <img id="PageImage" src="./Icon128.png" />
+      <div id='RootMidground' />
+      <div id='RootForeground' />
+      <div id='RootBackground'>
+        <div id='PageHeader'>
+          <img id='PageImage' src='./Icon128.png' />
           <div>
+        </div>
+        <div id='PageMain'>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  )
+}
+ 
+const container = document.createElement('div')
+document.body.appendChild(container)
+const root = createRoot(container)
+root.render(<OptionsView />)
+
+/*
           { Mode == Modes.Intake &&
             <Tooltip title="Liaison">
               <Button><JoinLeftIcon /></Button>
@@ -133,33 +144,4 @@ const OptionsView = () => {
                 <SettingsIcon /></Button>
             </Tooltip>
           }
-        </div>
-      </div>
-      { Mode == Modes.CentralCommand &&
-      <Box mx="10%" my="2%">
-        <Card>
-          <CardContent>
-            <IncidentCommand command_structure={CommandStructure} 
-              options={Options} dispatch={Dispatch} is_saving={IsSaving} />
-          </CardContent>
-        </Card>
-      </Box>
-      }{ Mode == Modes.Options &&
-        <Box mx="10%" my="2%">
-          <Card>
-            <CardContent>
-              <OptionsEditor options={Options} dispatch={Dispatch} 
-                is_saving={IsSaving} />
-            </CardContent>
-          </Card>
-        </Box>
-        }
-    </div>
-  </div>
-  )
-}
- 
-const container = document.createElement('div')
-document.body.appendChild(container)
-const root = createRoot(container)
-root.render(<OptionsView />)
+*/

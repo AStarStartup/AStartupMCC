@@ -1,45 +1,18 @@
-import './Popup.css';
 import React, { useEffect, useState, useReducer } from 'react';
-import { TextField, Typography } 
-  from '@material-ui/core';
 import { createRoot } from 'react-dom/client';
-const { Octokit } = require('octokit');
-import { ModelDataOptions, ModelDataOptionsDefault, ModelDataOptionsGet } 
-  from '../../Model';
-
-/*
-const octokit = new Octokit({
-  auth: process.env.GITHUB_TOKEN
-});
-const Response = await octokit.request('POST /repos/{owner}/{repo}/issues', {
-  owner: 'OWNER',
-  repo: 'REPO',
-  title: 'Found a bug',
-  body: 'I\'m having a problem with this.',
-  assignees: [
-    ''
-  ],
-  milestone: 1,
-  labels: [
-    'bug'
-  ],
-  headers: {
-    'X-GitHub-Api-Version': '2022-11-28'
-  }
-})
-*/
+import { ModelOptions, ModelOptionsDefault, ModelOptionsGet } from '../Model';
 
 const Popup = () => {
   console.log('>Popup');
-  const [Options, OptionsSet] = useState<ModelDataOptions | null>(
-    ModelDataOptionsDefault);
+  const [Options, OptionsSet] = useState<ModelOptions | null>(
+    ModelOptionsDefault);
   const [IsSaving, IsSavingSet] = useState(false);
   if (Options == null) return <div>Options == null</div>
   let { mission, project, session, username } = Options;
 
   useEffect(() => {
     console.log('[useEffect]');
-    ModelDataOptionsGet().then(options_new => OptionsSet(options_new));
+    ModelOptionsGet().then(options_new => OptionsSet(options_new));
   }, []);
 
   const SessionFocusChange = (username: string) => {

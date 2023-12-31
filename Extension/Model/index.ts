@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid'
-
 export const UsernameDefault = 'CookingWithCale'
 
 /* Data model options that do not get synced with the server. */
@@ -7,7 +5,7 @@ export interface ModelAppState {
 }
 
 /* Options that when changed triggers the DOM to rerender? */
-export interface ModelDataOptions {
+export interface ModelOptions {
   // App State
   modal_visible: boolean      //< Modal is visible flag.
   modal_state: number         //< State of the modal.
@@ -23,20 +21,15 @@ export interface ModelDataOptions {
 
 const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
 
-export interface ModelData {
-  options?: ModelDataOptions  //< Model data options.
+export interface Model {
+  options?: ModelOptions      //< Model data options.
   command_structure?: Object  //< Meta model for the incident command structure.
-  sessions_future?: Object    //< Sessions that have not happened.
-  sessions_past?: Object      //< Sessions that are closed.
   session?: Object            //< Current session.
-  missions_future?: Object    //< Missions that have not happened.
-  missions_past?: Object      //< Missions that have happened in the past.
+  issues_open?: Object      //< Missions that have not happened.
+  issues_closed?: Object    //< Missions that have happened in the past.
   mission?: Object            //< Current mission.
-  projects_cold?: Object      //< Cold/inactive projects.
-  projects_warm?: Object      //< Warm/side projects.
-  projects_hot?: Object       //< Hot/active projects.
-  projects_done?: Object      //< Finished projects.
-  project?: Object            //< Current project.
+  repos?: Object              //< List of this user's repos.
+  repo?: Object               //< Current project.
 }
 
 export interface AMission {
@@ -68,11 +61,11 @@ export const ARoles = {}
 
 export interface ASession {
   projects: Object        //< Projects worked on in this session.
-  missions: Object        //< Missions 
+  issues: Object        //< Missions 
   log: Object             //< Log for this session/...
 }
 
-export interface FeedRSSish {
+export interface ContentFeed {
   title: string           //< Title of the feed.
   description: string     //< Description of the feed.
   handle: string          //< Handle of the feed.
@@ -81,12 +74,12 @@ export interface FeedRSSish {
   header: string          //< HTML/CSS header for this feed.
 }
 
-export interface FeedCategory {
+export interface ContentFeedCategory {
   title: string           //< Title of the category.
   color: string           //< Identifying color.
   icon: string            //< Icon for the category.
   header: string          //< Header for feed of this category.
-  feeds: FeedRSSish[]     //< Array of feeds in this category.
+  feeds: ContentFeed[]     //< Array of feeds in this category.
 }
 
 export interface Enclosure {
@@ -95,8 +88,9 @@ export interface Enclosure {
   type: string
 }
 
-export interface FeedItem {
-  uid: string             //< Unique ID.
+export interface ContentFeedItem {
+  uid: bigint             //< 128-bit Unique ID.
+  idx: bigint             //< 64-bit inode index.
   link: string            //< Link to the feed item target.
   guid: string            //< Unique id of the feed item.
   title: string           //< Title of the feed item.
@@ -123,9 +117,9 @@ export interface ACommandStructure {
   supervisor: string,     //< Supervisor role key of this role.
 }
 
-export type ModelDataKeys = keyof ModelData
+export type ModelKeys = keyof Model
 
-export const ModelDataOptionsDefault: ModelDataOptions = {
+export const ModelOptionsDefault: ModelOptions = {
   username: UsernameDefault,
   modal_visible: false,
   modal_state: 0,
@@ -137,7 +131,7 @@ export const ModelDataOptionsDefault: ModelDataOptions = {
   project: '',
 }
 
-export const ModelDataCommandStructureDefault = {
+export const ModelCommandStructureDefault = {
   'command_roles': {
     ['Commander']: {
       'master': null,
@@ -182,43 +176,40 @@ export const ModelDataCommandStructureDefault = {
   } 
 }
 
-export const ModelDataDefault: ModelData = {
-  options: ModelDataOptionsDefault, 
-  command_structure: ModelDataCommandStructureDefault,
-  sessions_future: {},
-  sessions_past: {},
+export const ModelDefault: Model = {
+  options: ModelOptionsDefault, 
+  command_structure: ModelCommandStructureDefault,
   session: {},
-  missions_future: {},
-  missions_past: {},
+  issues_open: {},
+  issues_closed: {},
   mission: {},
-  projects_cold: {},
-  projects_hot: {},
-  project: {},
+  repos: {},
+  repo: {},
 }
 
-export const ModelDataSessionsFutureDefault = {}
-export const ModelDataSessionsPastDefault = {}
-export const ModelDataSessionDefault = {}
-export const ModelDataMissionsFutureDefault = {}
-export const ModelDataMissionsPastDefault = {}
-export const ModelDataMissionDefault = {}
-export const ModelDataProjectsColdDefault = {}
-export const ModelDataProjectsWarmDefault = {}
-export const ModelDataProjectsHotDefault = {}
-export const ModelDataProjectsDoneDefault = {}
-export const ModelDataProjectDefault = {}
+export const ModelSessionsFutureDefault = {}
+export const ModelSessionsPastDefault = {}
+export const ModelSessionDefault = {}
+export const ModelMissionsFutureDefault = {}
+export const ModelMissionsPastDefault = {}
+export const ModelMissionDefault = {}
+export const ModelProjectsColdDefault = {}
+export const ModelProjectsWarmDefault = {}
+export const ModelProjectsHotDefault = {}
+export const ModelProjectsDoneDefault = {}
+export const ModelProjectDefault = {}
 
-export function ModelDataOptionsGet(): Promise<ModelDataOptions> {
-  const keys: ModelDataKeys[] = ['options']
+export function ModelOptionsGet(): Promise<ModelOptions> {
+  const keys: ModelKeys[] = ['options']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataOptionsSet(options: ModelDataOptions): Promise<void> {
-  const Values: ModelData = {
+export function ModelOptionsSet(options: ModelOptions): Promise<void> {
+  const Values: Model = {
     options,
   }
   return new Promise((resolve) => {
@@ -228,17 +219,17 @@ export function ModelDataOptionsSet(options: ModelDataOptions): Promise<void> {
   })
 }
 
-export function ModelDataCommandStructureGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['command_structure']
+export function ModelCommandStructureGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['command_structure']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataCommandStructureSet(command_structure: Object): Promise<void> {
-  const Values: ModelData = {
+export function ModelCommandStructureSet(command_structure: Object): Promise<void> {
+  const Values: Model = {
     command_structure,
   }
   return new Promise((resolve) => {
@@ -248,57 +239,17 @@ export function ModelDataCommandStructureSet(command_structure: Object): Promise
   })
 }
 
-export function ModelDataSessionsFutureGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['sessions_future']
+export function ModelSessionGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['session']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataSessionsFutureSet(command_structure: Object): Promise<void> {
-  const Values: ModelData = {
-    command_structure,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataSessionsPastGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['sessions_past']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataSessionsPastSet(sessions_past: Object): Promise<void> {
-  const Values: ModelData = {
-    sessions_past,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataSessionGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['session']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataSessionSet(session: Object): Promise<void> {
-  const Values: ModelData = {
+export function ModelSessionSet(session: Object): Promise<void> {
+  const Values: Model = {
     session,
   }
   return new Promise((resolve) => {
@@ -309,17 +260,17 @@ export function ModelDataSessionSet(session: Object): Promise<void> {
 }
 
 export function ModelMissionsPastStructureGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['missions_past']
+  const keys: ModelKeys[] = ['issues_closed']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataMissionsPastSet(missions_past: Object): Promise<void> {
-  const Values: ModelData = {
-    missions_past,
+export function ModelMissionsPastSet(issues_closed: Object): Promise<void> {
+  const Values: Model = {
+    issues_closed: issues_closed,
   }
   return new Promise((resolve) => {
     chrome.storage.local.set(Values, () => {
@@ -328,18 +279,18 @@ export function ModelDataMissionsPastSet(missions_past: Object): Promise<void> {
   })
 }
 
-export function ModelDataMissionsFutureGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['missions_future']
+export function ModelIssuesOpenGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['issues_open']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataMissionsFutureSet(missions_future: Object): Promise<void> {
-  const Values: ModelData = {
-    missions_future,
+export function ModelIssuesOpenSet(issues_open: Object): Promise<void> {
+  const Values: Model = {
+    issues_open: issues_open,
   }
   return new Promise((resolve) => {
     chrome.storage.local.set(Values, () => {
@@ -348,17 +299,37 @@ export function ModelDataMissionsFutureSet(missions_future: Object): Promise<voi
   })
 }
 
-export function ModelDataMissionGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['mission']
+export function ModelIssuesClosedGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['issues_closed']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataMissionSet(mission: Object): Promise<void> {
-  const Values: ModelData = {
+export function ModelIssuesClosedSet(issues: Object): Promise<void> {
+  const Values: Model = {
+    issues_closed: issues,
+  }
+  return new Promise((resolve) => {
+    chrome.storage.local.set(Values, () => {
+      resolve()
+    })
+  })
+}
+
+export function ModelMissionGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['mission']
+  return new Promise((resolve) => {
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
+    })
+  })
+}
+
+export function ModelMissionSet(mission: Object): Promise<void> {
+  const Values: Model = {
     mission,
   }
   return new Promise((resolve) => {
@@ -368,98 +339,18 @@ export function ModelDataMissionSet(mission: Object): Promise<void> {
   })
 }
 
-export function ModelDataProjectsColdGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['projects_cold']
+export function ModelReposGet(): Promise<Object> {
+  const keys: ModelKeys[] = ['repos']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
+    chrome.storage.local.get(keys, (res: Model) => {
+      resolve(res.options ?? ModelOptionsDefault)
     })
   })
 }
 
-export function ModelDataProjectsColdSet(projects_cold: Object): Promise<void> {
-  const Values: ModelData = {
-    projects_cold,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataProjectsWarmGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['projects_warm']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataProjectsWarmSet(projects_warm: Object): Promise<void> {
-  const Values: ModelData = {
-    projects_warm,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataProjectsHotGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['projects_hot']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataProjectsHotSet(projects_hot: Object): Promise<void> {
-  const Values: ModelData = {
-    projects_hot,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataProjectsDoneGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['projects_done']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataProjectsDoneSet(projects_done: Object): Promise<void> {
-  const Values: ModelData = {
-    projects_done,
-  }
-  return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
-      resolve()
-    })
-  })
-}
-
-export function ModelDataProjectGet(): Promise<Object> {
-  const keys: ModelDataKeys[] = ['project']
-  return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (res: ModelData) => {
-      resolve(res.options ?? ModelDataOptionsDefault)
-    })
-  })
-}
-
-export function ModelDataProjectSet(project: Object): Promise<void> {
-  const Values: ModelData = {
-    project,
+export function ModelReposSet(repos: Object): Promise<void> {
+  const Values: Model = {
+    repos,
   }
   return new Promise((resolve) => {
     chrome.storage.local.set(Values, () => {
