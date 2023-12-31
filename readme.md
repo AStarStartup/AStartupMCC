@@ -7,7 +7,7 @@ The AStartup Mission Control Center is a browser extension and OBS plugin for A-
 
 ## Vision
 
-The Mission of the Astartup is to navigate your startup through the shortest possible path to success. Our vision is to make your startup an A startup.
+The Mission of the Astartup is to navigate your startup through the shortest possible path to success. Our vision is to make your startup an A startup with the A* startup.
 
 ## Mission
 

@@ -1,6 +1,6 @@
 {
-  "name": "astartupmcc",
-  "version": "0.0.1",
+  "name": "astartup-mcc",
+  "version": "0.0.2",
   "description": "Mission-driven development startup control center Chrome extension and OBS live coding, timesheet logging, employee monitoring, and video creation tool with IMUL, Script2, and pen and paper.",
   "main": "index.js",
   "scripts": {
@@ -17,22 +17,26 @@
     "@types/chrome": "^0.0.195",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "autoprefixer": "^10.4.16",
     "clean-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
     "dayjs": "^1.11.6",
     "html-webpack-plugin": "^5.6.0",
     "linearid": "^0.2.0",
-    "octokit": "^3.1.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "postcss": "^8.4.32",
+    "postcss-loader": "^7.3.4",
     "style-loader": "^3.3.1",
-    "tailwindcss": "^3.3.2",
+    "tailwindcss": "^3.4.0",
     "terser-webpack-plugin": "^5.3.5",
     "ts-loader": "^9.3.1",
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0",
     "webpack-merge": "^5.8.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }
