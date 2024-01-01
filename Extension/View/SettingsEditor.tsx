@@ -1,27 +1,25 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import { ModelAppState, ModelOptions } from '../Model'
+import { ModelAppState, ModelConfig } from '../Model'
 import React, { Dispatch, useState } from "react";
 
-const OptionsEditor = (props: {
-  options: ModelOptions,
+const ConfigEditor = (props: {
+  options: ModelConfig,
   dispatch: Dispatch<any>,
   is_saving: boolean,
 }) => {
   let { options, dispatch, is_saving } = props;
   if (options == undefined || dispatch == undefined) return null;
-  let { content_scripts, crew, username, metric_units } = options;
+  let { content_scripts, me, metric_units } = options;
   if (content_scripts == undefined || metric_units == undefined || 
-      crew            == undefined || username     == undefined) return null
+      me     == undefined) return null
 
   const [ContentScripts, ContentScriptsSet] = 
     useState(content_scripts == true ? 'Enabled' : 'Disabled')
   const [MetricUnits, MetricUnitsSet] = 
     useState(metric_units == true ? 'Standard' : 'Imperial')
-  const [Crew, CrewSet] = useState<string>(crew)
-  const [Username, UsernameSet] = useState<string>(username)
 
-  const UsernameChange = (username: string) => {
+  const UsernameChange = (me: string) => {
   }
   
   const ContentScriptsChange = (
@@ -41,8 +39,8 @@ const OptionsEditor = (props: {
   return <div className='flex justify-center h-full'>
     <h2>Options</h2>
     <span>Username</span>
-    <input type='text' placeholder="Enter your GitHub username..."
-      value={options.username}
+    <input type='text' placeholder="Enter your GitHub me..."
+      value={options.me}
       onChange={(event) => 
         UsernameChange(event.target.value)}
       disabled={ is_saving }
@@ -69,4 +67,4 @@ const OptionsEditor = (props: {
   </div>
 }
 
-export default OptionsEditor
+export default ConfigEditor

@@ -1,12 +1,6 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import { ModelCommandStructureDefault, ModelCommandStructureSet,
-         ModelSessionDefault, ModelSessionSet,
-         ModelIssuesClosedSet,
-         ModelIssuesOpenSet,
-         ModelMissionDefault, ModelMissionSet,
-         ModelOptionsDefault, ModelOptionsSet,
-         ModelReposSet, }
+import {  }
   from '../Model'
 console.log("[Background.ts]")
 
@@ -27,13 +21,15 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 
 // @todo Inspect video timestamp 3:38:30 for spooky shit.
 
+import { ModelConfigInit, ModelConfigSet, CommandStructureInit, CommandStructureSet, ModelIssueInit, ModelIssueSet, ModelMissionInit, ModelMissionSet, ModelSessionInit, ModelSessionSet, 
+  ModelSyndicateSet } from '../Model'
 chrome.runtime.onInstalled.addListener(() => {
-  ModelOptionsSet(ModelOptionsDefault)
-  ModelCommandStructureSet(ModelCommandStructureDefault)
-  ModelIssuesClosedSet({})
-  ModelIssuesOpenSet({})
-  ModelMissionSet(ModelMissionDefault)
-  ModelReposSet({})
+  ModelConfigSet(ModelConfigInit)
+  CommandStructureSet(CommandStructureInit)
+  ModelIssueSet(ModelIssueInit)
+  ModelMissionSet(ModelMissionInit)
+  ModelSessionSet(ModelSessionInit)
+  ModelSyndicateSet(ModelMissionInit)
 
   chrome.alarms.create("FeedUpdate", {
     periodInMinutes: 15/60,
