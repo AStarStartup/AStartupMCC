@@ -2,19 +2,19 @@
 
 import React, { useEffect, useState, useReducer } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ModelOptions, ModelOptionsDefault, ModelOptionsGet } from '../Model';
+import { ModelConfig, ModelConfigInit, ModelConfigGet } from '../Model';
 
 const Popup = () => {
   console.log('>Popup');
-  const [Options, OptionsSet] = useState<ModelOptions | null>(
-    ModelOptionsDefault);
+  const [Config, ConfigSet] = useState<ModelConfig | null>(
+    ModelConfigInit);
   const [IsSaving, IsSavingSet] = useState(false);
-  if (Options == null) return <div>Options == null</div>
-  let { username, session, account, repo, mission, child_mission } = Options;
+  if (Config == null) return <div>Options == null</div>
+  let { me: username, session, account, repo, mission, child_mission } = Config;
 
   useEffect(() => {
     console.log('[useEffect]');
-    ModelOptionsGet().then(options_new => OptionsSet(options_new));
+    ModelConfigGet().then(options_new => ConfigSet(options_new));
   }, []);
 
   const SessionFocusChange = (username: string) => {
@@ -37,7 +37,7 @@ const Popup = () => {
       <h6>{child_mission}</h6>
       <input placeholder=
           "Enter the focus of the session in less than 100 characters..."
-        value={ Options.username }
+        value={ Config.me }
         onChange={ (event) => SessionFocusChange(event.target.value) }
         disabled={ IsSaving }
       />

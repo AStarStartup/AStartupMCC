@@ -4,8 +4,8 @@ import React, { useEffect, useReducer, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 
 import {
-  ModelCommandStructureDefault, ModelOptions,
-  ModelOptionsDefault, ModelOptionsGet
+  CommandStructureInit, ModelConfig,
+  ModelConfigInit, ModelConfigGet
 } from '../Model'
  
 const OptionsView = () => {
@@ -23,13 +23,13 @@ const OptionsView = () => {
   }
  
   const [CommandStructure, CommandStructureSet] = 
-    useState(ModelCommandStructureDefault)
+    useState(CommandStructureInit)
   const [Visible, VisibleSet] = useState(false)
   const [State, StateSet] = useState(0)
   const [IsSaving, IsSavingSet] = useState(false)
   const [Mode, ModeSet] = useState(Modes.Options)
   const [Options, OptionsSet] = 
-    useState<ModelOptions | null>(ModelOptionsDefault)
+    useState<ModelConfig | null>(ModelConfigInit)
 
   const SaveButtonStyles = 'block mt-10 border-none outline-none'
                          + 'rounded-md p-4 bg-violet-500 font-bold'
@@ -37,7 +37,7 @@ const OptionsView = () => {
   
   useEffect(() => {
     console.log('[useEffect]')
-    ModelOptionsGet().then(options_new => OptionsSet(options_new))
+    ModelConfigGet().then(options_new => OptionsSet(options_new))
   }, [])
   
   const ReduceState = (state, action) => {
