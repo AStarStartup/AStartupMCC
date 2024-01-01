@@ -1,3 +1,5 @@
+// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
+
 import { ModelAppState, ModelOptions } from '../Model'
 import React, { Dispatch, useState } from "react";
 

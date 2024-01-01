@@ -1,3 +1,5 @@
+// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
+
 import React, { useEffect, useState, useReducer } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ModelOptions, ModelOptionsDefault, ModelOptionsGet } from '../Model';
@@ -8,7 +10,7 @@ const Popup = () => {
     ModelOptionsDefault);
   const [IsSaving, IsSavingSet] = useState(false);
   if (Options == null) return <div>Options == null</div>
-  let { mission, project, session, username } = Options;
+  let { username, session, account, repo, mission, child_mission } = Options;
 
   useEffect(() => {
     console.log('[useEffect]');
@@ -27,16 +29,18 @@ const Popup = () => {
     <div className="flex">
       <input type="button"value="Log In" onClick={LogInOutHandle} />
       <br/>
-      <h1 className="Popup">{username}</h1>
+      <h1>{username}</h1>
+      <h2>Session #{session}</h2>
+      <h3>{account}</h3>
+      <h4>{repo}</h4>
+      <h5>{mission}</h5>
+      <h6>{child_mission}</h6>
       <input placeholder=
           "Enter the focus of the session in less than 100 characters..."
         value={ Options.username }
         onChange={ (event) => SessionFocusChange(event.target.value) }
         disabled={ IsSaving }
       />
-      <h2>Session #{session}</h2>
-      <h3 className="Popup">{project}</h3>
-      <h4 className="Popup">Mission #{mission}</h4>
     </div>
   )
 }

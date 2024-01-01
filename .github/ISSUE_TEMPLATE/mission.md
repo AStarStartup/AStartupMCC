@@ -17,7 +17,7 @@ The solution that I'm addressing on this mission is...
 
 ### Affected Files
 
-1. `?`
+1. `~/**/*.*`
 
 ## Hierarchy
 
