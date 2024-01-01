@@ -1,3 +1,5 @@
+// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
+
 import { ModelCommandStructureDefault, ModelCommandStructureSet,
          ModelSessionDefault, ModelSessionSet,
          ModelIssuesClosedSet,

@@ -1,3 +1,5 @@
+// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
+
 export const UsernameDefault = 'CookingWithCale'
 
 /* Data model options that do not get synced with the server. */
@@ -11,12 +13,91 @@ export interface ModelOptions {
   modal_state: number         //< State of the modal.
   content_scripts: boolean    //< Content scripts enabled.
   // Options
-  username?: string           //< AStartup username.
   metric_units?: boolean      //< Standard (true) or Imperial units.
-  crew: string                //< Default crew.
-  session?: string            //< Current session number.
-  project?: string            //< Current project name.
-  mission?: string            //< Current mission number.
+  username?: string           //< Username.
+  session?: number            //< Current session number.
+  account?: string            //< Current account.
+  repo?: string               //< Current repo.
+  mission: number             //< Current mission number.
+  child_mission?: string      //< Current child mission.
+  crew?: string               //< Default string of crew members.
+}
+
+// Unpacks the account/repo#MissionNumber.ChildMission from the input string.
+export function MissionStringUnpack(input: string) {
+  let state = 0
+  let account = ''
+  let repo = ''
+  let mission_number = ''
+  let child_mission = ''
+  let i = 0
+  let c: string | undefined = input[i++]
+  let o = '\nParsing input:"' + input + '"'
+  while (c != undefined) {
+    switch(state) {
+      case 0: { // Parsing org
+        o += '\naccount:"' + account + '" c:' + c + ' i:' + i;
+        if(c == '/') {
+          c = input[i++]
+          state = 1
+          break
+        }
+        account += c
+        c = input[i++]
+        break
+      }
+      case 1: { // Parsing repo
+        o += '\nrepo:"' + repo + '" c:' + c + ' i:' + i;
+        if(c == '#') {
+          c = input[i++]
+          state = 2
+          break
+        }
+        repo += c
+        c = input[i++]
+        break
+      }
+      case 2: { // Parsing mission number.
+        o += '\nmission_number:"' + mission_number + '" c:' + c + ' i:' 
+           + i;
+        if(c == '.') {
+          c = input[i++]
+          state = 3
+          break
+        }
+        if(c < '0' || c > '9') {
+          console.assert(c > '', 'ERROR: invalid child mission at i:' 
+                      + i + ' c:' + c.charCodeAt(0) + ' i:' + i)
+          c = undefined
+          break
+        }
+        mission_number += c
+        c = input[i++]
+        break
+      }
+      case 3: { // Parsing Child Mission
+        o += '\nchild_mission:"' + child_mission + '" c:' + c + ' i:' + i;
+        if(c <= ' ') {
+          console.assert(c > '', 'ERROR: invalid child mission at i:' 
+                      + i + ' c:' + c.charCodeAt(0))
+          c = undefined
+          break
+        }
+        child_mission += c
+        c = input[i++]
+        break
+      }
+      default: {
+        c = undefined
+        break
+      }
+    }
+  }
+  o += '\nFound account:"' + account + '" repo:"' + repo 
+     + '" mission_number:"' + mission_number 
+     + '" child_mission:"' + child_mission + '"'
+  console.log(o)
+  return [ account, repo, parseInt(mission_number), child_mission ]
 }
 
 const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
@@ -120,15 +201,17 @@ export interface ACommandStructure {
 export type ModelKeys = keyof Model
 
 export const ModelOptionsDefault: ModelOptions = {
-  username: UsernameDefault,
   modal_visible: false,
   modal_state: 0,
   content_scripts: false,
   metric_units: true,
+  username: UsernameDefault,
+  session: 0,
+  account: '',
+  repo: '',
+  mission: 0,
+  child_mission: '',
   crew: UsernameDefault,
-  session: '',
-  mission: '',
-  project: '',
 }
 
 export const ModelCommandStructureDefault = {
