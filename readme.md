@@ -17,6 +17,16 @@ The Mission of the AStartup MCC is:
 2. Select a repository to work on and a current MDD (Mission-Driven Development) Mission Ticket you are on, show and add comments to GitHub Issue Ticket.
 3. Create a GitHub Pages Next.JS statically generated website using GitHub Actions that displays a list of your GitHub repositories that use MDD, displays each repo's open Issue tickets, and a Gantt chart that displays the Milestones and Mission Tickets.
 
+## Contributing
+
+**2023-12-31**: Right now I have to get the timesheet clock on and off with the browser extension popup menu to work with my Next.JS website using an API route and an html form. I also have the [AStartup Toolkit](https://github.com/AStarStartup/AStartupToolkit), which has some markdown Jekyll-ish templates for engineering documentation. I need to convert that to a Next.JS statically generated website using GitHub Actions, and be able to display a [Business Model Canvas](https://en.wikipedia.org/wiki/Business_Model_Canvas) (BMC). Jekyll markdown files don't work for making BMC. It would work best to provide an IMUL Markdown parser that automatically parses markdown sections that are named after the BLC elements, but a basic Markdown parser will suffice. I'm not sure exactly how we will be using GitHub Actions endpoints with the AStartupMCC.
+
+At this point I don't have exact missions you can contribute to. Once I get the timesheet logging system implemented with the <astartup.net> website then you will have more of an idea what is going on.
+
+Please read the Contributing Guide in the [AStartup Cookbook](https://github.com/AStarStartup/AStartupCookbook) to learn how to do Mission-Driven Development.
+
+You can submit ides or questions using the GitHub Issue Tracking System. Thanks.
+
 ## License
 
 Copyright [AStartup](https://astartup.net)™; most rights reserved, Open-source theft prohibited, closed-source commercial use allowed, licensed under the Kabuki Weak Source-available License that YOU MUST CONSENT TO at <https://github.com/AStarStartup/AStartupMCC>.
