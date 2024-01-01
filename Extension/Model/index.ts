@@ -32,8 +32,8 @@ export type ModelConfig = {
   // App State
   modal_visible: boolean      //< Modal is visible flag.
   modal_state: number         //< State of the modal.
-  content_scripts: boolean    //< Content scripts enabled.
   // Options
+  content_scripts: boolean    //< Content scripts enabled.
   metric_units?: boolean      //< Standard (true) or Imperial units.
   me?: string                 //< The user's Username.
   them?: string               //< Currently selected syndicate member.
