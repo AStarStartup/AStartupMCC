@@ -1,5 +1,3 @@
-// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
-
 import React from 'react'
 
 export function IconGear() {

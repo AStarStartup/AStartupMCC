@@ -1,23 +1,6 @@
-// Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
+// Copyright AStartup; license at https://github.com/AStartupMCC
 
 export const UsernameInit = 'CookingWithCale'
-
-export type GitHubIssue = {
-  title: string
-  number: number
-  brief: string
-}
-
-export type GitHubRepo = {
-  name: string
-  issues_closed: GitHubIssue
-  issues_open: GitHubIssue
-}
-
-export type GitHubAccount = {
-  type: string
-  repos: GitHubRepo
-}
 
 /* Data model config that do not get synced with the server. */
 export type ModelAppState = {
@@ -40,8 +23,7 @@ export type ModelConfig = {
   session?: number            //< Current session number.
   account?: string            //< Current account.
   repo?: string               //< Current repo.
-  mission: number             //< Current mission number.
-  child_mission?: string      //< Current child mission.
+  mission: string             //< Current mission string.
 }
 
 const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
@@ -151,10 +133,9 @@ export const ModelConfigInit: ModelConfig = {
   me: UsernameInit,
   them: '',
   session: 0,
-  account: '',
-  repo: '',
-  mission: 0,
-  child_mission: ''
+  account: 'AStarStartup',
+  repo: 'AStartupMCC',
+  mission: ''
 }
 // Unpacks the account/repo#MissionNumber.ChildMission from the input string.
 export function MissionStringUnpack(input: string) {
@@ -278,173 +259,389 @@ export const CommandStructureInit = {
     }
   } 
 }
+export type GitHubIssue = {
+  title: string         //< Issue title.
+  open: boolean         //< Open (true) or closed (false).
+}
 
+export type GitHubRepo = {
+  visibility: boolean   //< visibility: public (true) or private (false).
+  issues_open: Object   //< All of the open issue tickets.
+}
+
+export type GitHubAccount = {
+  type: string          //< Account type: 'Person' or 'Org'.
+  repos: Object         //< Account repos.
+}
+
+export const ModelSyndicateInit: Object = {
+  "AStarStartup": {
+    "Type": "Org",
+    "Repos": {
+      "AStartupMCC": {
+        "issues": {
+          "86": "Abilities.Add: Can set and crop background in OBS for thumbnail",
+          "85": "ContextMenu.Add quick paste feature",
+          "75": "ContextMenu.AddAbility Right click on GitHub issue tickets and add them to the current mission or set as the current mission",
+          "71": "Options.Abilities: Can switch property key casing",
+          "28": "Abilities.Add: Can select a dummy account, repo, mission, and child mission",
+          "22": "Timesheet Logger (v0.1)",
+          "14": "ProductManager.Abilities.Add: Can add and remove products"
+        },
+        "visibility": true
+      },
+      "AStartupToolkit": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "LinearId": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "OBSFX": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      ".github": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "AStartupGitTemplate": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "AStartupCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "AStartupWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "StreamSeq": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "Channel": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "OBSTouchGIMP": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "Typecraft": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+    }
+  },
+  "CookingWithCale": {
+    "Type": "Person",
+    "Repos": {
+      "BadThing": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      ".github": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "FreedomCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "SickBay>": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "metascrapper": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "MetamediaDownloader": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "Self": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      }
+    }
+  },
+  "KabukiStarship": {
+    "Type": "Person",
+    "Repos": {
+      "Script2": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      ".github": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "Actors": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekPolygonWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiLIcenses": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "StarshipCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiPressCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "MusictechCookbook": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeek": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekCardsWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiStarship.github.io": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiToolkit": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "IMUL": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "ScriptTek": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekMazeWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekPacWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekTileWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "iGeekVirusWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiBenchmark": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": true
+      },
+      "KabukiPress": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "KabukiSearch": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "SearchFor4.669": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "IAmPy": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "iGeekWikiWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "iGeekUlator": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "iGeekBlockWorld": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "KabukiDB": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      },
+      "KabukiTheater": {
+        "issues_open": {
+          "1": "Session.Next.Monday",
+          "2": "Session.Next.Tuesday"
+        },
+        "visibility": false
+      }
+    }
+  }
+}
+
+/*
 export const ModelStateInit: ModelState = {
   command_structure: CommandStructureInit,
   issue: {},
   mission: {},
   config: ModelConfigInit,
   session: {},
-  syndicate: {
-    "CookingWithCale": {
-      "Repos": {
-        "AStarStartup/AStartupMCC": {
-          "Visibility": true
-        },
-        "AStarStartup/AStartupToolkit": {
-          "Visibility": true
-        },
-        "AStarStartup/LinearId": {
-          "Visibility": true
-        },
-        "AStarStartup/OBSFX": {
-          "Visibility": true
-        },
-        "AStarStartup/.github": {
-          "Visibility": true
-        },
-        "AStarStartup/AStartupGitTemplate": {
-          "Visibility": true
-        },
-        "AStarStartup/AStartupCookbook": {
-          "Visibility": true
-        },
-        "AStarStartup/AStartupWorld": {
-          "Visibility": false
-        },
-        "AStarStartup/StreamSeq": {
-          "Visibility": false
-        },
-        "AStarStartup/Channel": {
-          "Visibility": false
-        },
-        "AStarStartup/OBSTouchGIMP": {
-          "Visibility": false
-        },
-        "AStarStartup/Typecraft": {
-          "Visibility": false
-        },
-        "KabukiStarship/Script2": {
-          "Visibility": true
-        },
-        "KabukiStarship/.github": {
-          "Visibility": true
-        },
-        "KabukiStarship/Actors": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekPolygonWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiLIcenses": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekCookbook": {
-          "Visibility": true
-        },
-        "KabukiStarship/StarshipCookbook": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiPressCookbook": {
-          "Visibility": true
-        },
-        "KabukiStarship/MusictechCookbook": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeek": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekCardsWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiStarship.github.io": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiToolkit": {
-          "Visibility": true
-        },
-        "KabukiStarship/IMUL": {
-          "Visibility": true
-        },
-        "KabukiStarship/ScriptTek": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekMazeWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekPacWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekTileWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/iGeekVirusWorld": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiBenchmark": {
-          "Visibility": true
-        },
-        "KabukiStarship/KabukiPress": {
-          "Visibility": false
-        },
-        "KabukiStarship/KabukiSearch": {
-          "Visibility": false
-        },
-        "KabukiStarship/SearchFor4.669": {
-          "Visibility": false
-        },
-        "KabukiStarship/IAmPy": {
-          "Visibility": false
-        },
-        "KabukiStarship/iGeekWikiWorld": {
-          "Visibility": false
-        },
-        "KabukiStarship/iGeekUlator": {
-          "Visibility": false
-        },
-        "KabukiStarship/iGeekBlockWorld": {
-          "Visibility": false
-        },
-        "KabukiStarship/KabukiDB": {
-          "Visibility": false
-        },
-        "KabukiStarship/KabukiTheater": {
-          "Visibility": false
-        },
-        "CookingWithCale/BadThing": {
-          "Visibility": true
-        },
-        "CookingWithCale/.github": {
-          "Visibility": true
-        },
-        "CookingWithCale/FreedomCookbook": {
-          "Visibility": true
-        },
-        "CookingWithCale/MarkdownCookbook": {
-          "Visibility": true
-        },
-        "CookingWithCale/MarkdownSoftwareEngineering": {
-          "Visibility": true
-        },
-        "CookingWithCale/SickBay>": {
-          "Visibility": true
-        },
-        "CookingWithCale/MarkdownGameDev": {
-          "Visibility": true
-        },
-        "CookingWithCale/metascrapper": {
-          "Visibility": false
-        },
-        "CookingWithCale/MetamediaDownloader": {
-          "Visibility": false
-        },
-        "CookingWithCale/Self": {
-          "Visibility": false
-        }
-      }
-    },
-  }
-}
+  syndicate: ModelSyndicateInit
+}*/
 
 export function ModelConfigGet(): Promise<ModelConfig> {
   const keys: ModelKeys[] = ['config']
@@ -470,7 +667,7 @@ export function CommandStructureGet(): Promise<Object> {
   const keys: ModelKeys[] = ['command_structure']
   return new Promise((resolve) => {
     chrome.storage.local.get(keys, (state: ModelState) => {
-      resolve(state.config ?? ModelStateInit)
+      resolve(state.command_structure ?? CommandStructureInit)
     })
   })
 }
@@ -541,10 +738,6 @@ export function ModelSessionSet(session: Object): Promise<void> {
       resolve()
     })
   })
-}
-
-export const ModelSyndicateInit: Object = {
-  "CookingWithCale": {}
 }
 
 export function ModelSyndicateGet(): Promise<Object> {

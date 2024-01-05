@@ -3,7 +3,7 @@
 import { ModelAppState, ModelConfig } from '../Model'
 import React, { Dispatch, useState } from "react";
 
-const ConfigEditor = (props: {
+const SettingsEditor = (props: {
   options: ModelConfig,
   dispatch: Dispatch<any>,
   is_saving: boolean,
@@ -67,4 +67,4 @@ const ConfigEditor = (props: {
   </div>
 }
 
-export default ConfigEditor
+export default SettingsEditor

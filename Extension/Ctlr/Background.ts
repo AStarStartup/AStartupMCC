@@ -1,7 +1,10 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import {  }
-  from '../Model'
+import { CommandStructureInit, CommandStructureSet, ModelConfigInit, 
+ModelConfigGet, ModelConfigSet, ModelIssueInit, ModelIssueSet, 
+ModelMissionInit, ModelMissionSet, ModelSessionInit, ModelSessionSet,
+ModelSyndicateInit, ModelSyndicateSet } from '../Model'
+
 console.log("[Background.ts]")
 
  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -11,28 +14,26 @@ console.log("[Background.ts]")
  })
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === "FeedUpdate") {
-    console.log('tick')
-    //chrome.storage.local.get(["feeds", "segments"], (res) => {
-    //  FeedEstuarySorterProcess(res.feeds, res.segments)
+  if (alarm.name === "Update") {
+    //console.log('tick')
+    //ModelConfigGet().then((options) => {
+    //  console.log(options)
     //})
   }
 })
 
 // @todo Inspect video timestamp 3:38:30 for spooky shit.
 
-import { ModelConfigInit, ModelConfigSet, CommandStructureInit, CommandStructureSet, ModelIssueInit, ModelIssueSet, ModelMissionInit, ModelMissionSet, ModelSessionInit, ModelSessionSet, 
-  ModelSyndicateSet } from '../Model'
 chrome.runtime.onInstalled.addListener(() => {
   ModelConfigSet(ModelConfigInit)
   CommandStructureSet(CommandStructureInit)
   ModelIssueSet(ModelIssueInit)
   ModelMissionSet(ModelMissionInit)
   ModelSessionSet(ModelSessionInit)
-  ModelSyndicateSet(ModelMissionInit)
+  ModelSyndicateSet(ModelSyndicateInit)
 
-  chrome.alarms.create("FeedUpdate", {
-    periodInMinutes: 15/60,
+  chrome.alarms.create("Update", {
+    periodInMinutes: 1/60,
   })
 
   chrome.contextMenus.create({
