@@ -1,5 +1,7 @@
 The AStartup Mission Control Center is a browser extension and OBS plugin for A-Startups.
 
+![example workflow](https://github.com/AStarStartup/AStartupMCC/actions/workflows/test.yml/badge.svg)
+
 ## Quick Links
 
 * [AStartup Cookbook](https://github.com/AStarStartup/AStartupCookbook) - An open-source book that teaches you to invent, launch, and run a modern startup with Mission-driven Development (IDD) and I am You Language (IMUL) on GitHub.
