@@ -1,18 +1,18 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import { ModelAppState, ModelConfig } from '../Model'
-import React, { Dispatch, useState } from "react";
+import { ModelConfigSync } from '../Model'
+import React, { useState } from "react";
 
 const SettingsEditor = (props: {
-  options: ModelConfig,
-  dispatch: Dispatch<any>,
+  dispatch: (action: Object | null) => ModelConfigSync,
   is_saving: boolean,
 }) => {
-  let { options, dispatch, is_saving } = props;
-  if (options == undefined || dispatch == undefined) return null;
+  let { dispatch, is_saving } = props;
+  if (dispatch == undefined) return null;
+  const options = dispatch(null)
   let { content_scripts, me, metric_units } = options;
   if (content_scripts == undefined || metric_units == undefined || 
-      me     == undefined) return null
+      me == undefined) return null
 
   const [ContentScripts, ContentScriptsSet] = 
     useState(content_scripts == true ? 'Enabled' : 'Disabled')
@@ -59,7 +59,7 @@ const SettingsEditor = (props: {
       </div>
     <button
       color="primary"
-      onClick={() => dispatch({ type: 'OptionsSave', 
+      onClick={() => dispatch({ action: 'OptionsSave', 
         values: {...options, } })}
       disabled={ is_saving }>
         { is_saving ? 'Save' : 'Saving...' }

@@ -1,7 +1,7 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import { CommandStructureInit, CommandStructureSet, ModelConfigInit, 
-ModelConfigGet, ModelConfigSet, ModelIssueInit, ModelIssueSet, 
+import { CommandStructureInit, CommandStructureSet, ModelConfigSyncInit, 
+ModelConfigSyncGet, ModelConfigSyncSet, ModelIssueInit, ModelIssueSet, 
 ModelMissionInit, ModelMissionSet, ModelSessionInit, ModelSessionSet,
 ModelSyndicateInit, ModelSyndicateSet } from '../Model'
 
@@ -25,7 +25,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 // @todo Inspect video timestamp 3:38:30 for spooky shit.
 
 chrome.runtime.onInstalled.addListener(() => {
-  ModelConfigSet(ModelConfigInit)
+  ModelConfigSyncSet(ModelConfigSyncInit)
   CommandStructureSet(CommandStructureInit)
   ModelIssueSet(ModelIssueInit)
   ModelMissionSet(ModelMissionInit)
