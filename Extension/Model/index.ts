@@ -2,35 +2,33 @@
 
 export const UsernameInit = 'CookingWithCale'
 
-/* Data model config that do not get synced with the server. */
-export type ModelAppState = {
+// Model configuration settings that get synced with the browser.
+export type ModelConfigSync = {
+  account?: string            //< Current account.
+  content_scripts: boolean    //< Content scripts enabled.
+  me?: string                 //< The user's Username.
+  metric_units?: boolean      //< Standard (true) or Imperial units.
+  mission: number             //< Current mission number.
+  mission_ids?: string        //< Current mission ID string.
+  repo?: string               //< Current repo.
+  session?: number            //< Current session number (zero means clocked out).
+  session_ids?: string        //< The session ID string.
+  them?: string               //< Currently selected syndicate member.
 }
 
-// Options that when changed triggers the DOM to rerender?
-// The design goal of this data structure is to not have any nested objects.
-// The ModelState data is stored using Objects and thus the key is not stored 
-// in the sub-Object, so we store the key of the current Object we are working 
-// on.
-export type ModelConfig = {
-  // App State
-  modal_visible: boolean      //< Modal is visible flag.
+// Local model configuration settings.
+export type ModelConfigLocal = {
   modal_state: number         //< State of the modal.
   // Options
-  content_scripts: boolean    //< Content scripts enabled.
-  metric_units?: boolean      //< Standard (true) or Imperial units.
-  me?: string                 //< The user's Username.
-  them?: string               //< Currently selected syndicate member.
-  session?: number            //< Current session number.
-  account?: string            //< Current account.
-  repo?: string               //< Current repo.
-  mission: string             //< Current mission string.
+  modal_visible: boolean      //< Modal is visible flag.
 }
 
 const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
 
 // The Global App Model state.
 export type ModelState = {
-  config?: ModelConfig        //< Model data config.
+  config_sync?: ModelConfigSync   //< Synced model config settings.
+  config_local?: ModelConfigLocal //< Local model config settings.
   command_structure?: Object  //< Meta model for the incident command structure.
   issue?: Object              //< The current issue.
   mission?: Object            //< The current mission.
@@ -125,18 +123,24 @@ export type ACommandStructureNode = {
 
 export type ModelKeys = keyof ModelState
 
-export const ModelConfigInit: ModelConfig = {
-  modal_visible: false,
-  modal_state: 0,
+export const ModelConfigSyncInit: ModelConfigSync = {
   content_scripts: false,
   metric_units: true,
   me: UsernameInit,
   them: '',
   session: 0,
+  session_ids: '',
   account: 'AStarStartup',
   repo: 'AStartupMCC',
-  mission: ''
+  mission: 0,
+  mission_ids: ''
 }
+
+export const ModelConfigLocalInit: ModelConfigLocal = {
+  modal_visible: false,
+  modal_state: 0,
+}
+
 // Unpacks the account/repo#MissionNumber.ChildMission from the input string.
 export function MissionStringUnpack(input: string) {
   let state = 0
@@ -279,7 +283,7 @@ export const ModelSyndicateInit: Object = {
     "Type": "Org",
     "Repos": {
       "AStartupMCC": {
-        "issues": {
+        "issues_open": {
           "86": "Abilities.Add: Can set and crop background in OBS for thumbnail",
           "85": "ContextMenu.Add quick paste feature",
           "75": "ContextMenu.AddAbility Right click on GitHub issue tickets and add them to the current mission or set as the current mission",
@@ -424,7 +428,7 @@ export const ModelSyndicateInit: Object = {
     }
   },
   "KabukiStarship": {
-    "Type": "Person",
+    "Type": "Org",
     "Repos": {
       "Script2": {
         "issues_open": {
@@ -633,31 +637,41 @@ export const ModelSyndicateInit: Object = {
   }
 }
 
-/*
-export const ModelStateInit: ModelState = {
-  command_structure: CommandStructureInit,
-  issue: {},
-  mission: {},
-  config: ModelConfigInit,
-  session: {},
-  syndicate: ModelSyndicateInit
-}*/
-
-export function ModelConfigGet(): Promise<ModelConfig> {
-  const keys: ModelKeys[] = ['config']
+export function ModelConfigLocalGet(): Promise<ModelConfigLocal> {
+  const keys: ModelKeys[] = ['config_local']
   return new Promise((resolve) => {
     chrome.storage.local.get(keys, (state: ModelState) => {
-      resolve(state.config ?? ModelConfigInit)
+      resolve(state.config_local ?? ModelConfigLocalInit)
     })
   })
 }
 
-export function ModelConfigSet(config: ModelConfig): Promise<void> {
+export function ModelConfigLocalSet(config: ModelConfigLocal): Promise<void> {
   const Values: ModelState = {
-    config: config,
+    config_local: config,
   }
   return new Promise((resolve) => {
     chrome.storage.local.set(Values, () => {
+      resolve()
+    })
+  })
+}
+
+export function ModelConfigSyncGet(): Promise<ModelConfigSync> {
+  const keys: ModelKeys[] = ['config_sync']
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
+      resolve(state.config_sync ?? ModelConfigSyncInit)
+    })
+  })
+}
+
+export function ModelConfigSyncSet(config: ModelConfigSync): Promise<void> {
+  const Values: ModelState = {
+    config_sync: config,
+  }
+  return new Promise((resolve) => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })

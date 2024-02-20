@@ -1,7 +1,9 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
 import React, { useState } from 'react'
-import { ModelConfig, ModelConfigSet } from '../Model'
+import { ModelConfigSync, ModelConfigSyncSet } from '../Model'
+
+const { LLIDNextHex } = require('linearid')
 
 // Checks if the issue_num_title starts off with #mission_number_string (i.e #123).
 export function IssueIsSelected(issue_num_title: string, mission_number_string: string) {
@@ -9,7 +11,7 @@ export function IssueIsSelected(issue_num_title: string, mission_number_string: 
   //if(MLength < 1 || issue_num_title.length <= MLength) return false; 
   // Example issue_is_selected: "ABC" or "A123" or "#123 Working example"
   let issue_is_selected = issue_num_title[0] != '#' && MLength < 1 
-   && issue_num_title.length <= MLength
+                       && issue_num_title.length <= MLength
   //if(!issue_is_selected) return issue_is_selected
   let i = 0
   for(; i < MLength; ++i) {
@@ -22,8 +24,8 @@ export function IssueIsSelected(issue_num_title: string, mission_number_string: 
 }
 
 export default function MissionSelector(props: { 
-    Config   : ModelConfig
-    ConfigSet: (o: ModelConfig) => void
+    Config   : ModelConfigSync
+    ConfigSet: (o: ModelConfigSync) => void
     Syndicate: object
   }) {
   
@@ -91,7 +93,8 @@ export default function MissionSelector(props: {
           ConfigSet({...Config, account: e.target.value})
       }} value={account}>
       { Object.keys(Syndicate).map((key) => (
-        <option value={key} selected={(key == account) ? true : false}>
+        <option value={key} selected={(key == account) ? true : false}
+          key={LLIDNextHex()}>
           {key}
         </option>
       ))}
@@ -104,12 +107,13 @@ export default function MissionSelector(props: {
         onChange={(e) => {
           console.log("Changing Repo:" + e.target.value)
           const ConfigNew = {...Config, account: Config.account, repo: e.target.value}
-          ModelConfigSet(ConfigNew).then(() => {
+          ModelConfigSyncSet(ConfigNew).then(() => {
             ConfigSet(ConfigNew)
           })
         }} value={account}>
         { repos.map((key) => (
-          <option value={key} selected={(key == repo) ? true : false}>
+          <option value={key} selected={(key === repo) ? true : false}
+            key={LLIDNextHex()}>
             {key}
           </option>
         ))}
@@ -120,14 +124,15 @@ export default function MissionSelector(props: {
       <select name="Issues" id="Issues" className='max-w-fit'
         onChange={(e) => {
           console.log(e.target.value);
-          const ConfigNew = {...Config, mission: e.target.value}
-          ModelConfigSet(ConfigNew).then(() => {
+          const ConfigNew = {...Config, mission_ids: e.target.value}
+          ModelConfigSyncSet(ConfigNew).then(() => {
             ConfigSet(ConfigNew)
           })
         }} value={mission}>
         { issues.map((issue_num_title) => (
           <option value={issue_num_title} 
-              selected={IssueIsSelected(issue_num_title, mission)}>
+              selected={IssueIsSelected(issue_num_title, mission.toString())}
+              key={LLIDNextHex()}>
             {issue_num_title}
           </option>
         ))}
