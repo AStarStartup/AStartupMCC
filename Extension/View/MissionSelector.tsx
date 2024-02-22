@@ -1,9 +1,54 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
-import React, { useState } from 'react'
-import { ModelConfigSync, ModelConfigSyncSet } from '../Model'
+import React from 'react'
+import { RepoGitHub, ModelConfigSync, ModelConfigSyncSet 
+} from '../Model'
 
 const { LLIDNextHex } = require('linearid')
+
+export function ListReposAndIssues(Syndicate: object, account: string,
+    repo: string) {
+  let repo_names: string[] = []
+  let issue_id_strings: string[] = []
+  console.log('Iterating through Syndicates...')
+  Object.entries(Syndicate || {}).forEach(([account_key, account_value]) => {
+    if(account != account_key && account != 'All') return [[], []]
+    console.log('Processing entries for account:' + account + ' s_key:' + account_key)
+    //Accounts.push(key)
+    let Repos = Object(account_value)['Repos']
+    console.log('Account:"' + 
+      Object.keys(Syndicate).find(key => Syndicate[key] === account_value) + '"')
+    console.assert(Repos != undefined)
+    console.log('Repos:')
+    console.log(Repos)
+    console.log('Iterating through Repos:')
+    repo_names.push(repo ?? '.github')
+    Object.entries(Repos || {}).forEach(([repo_key, repo_value]) => {
+      console.log('key:"' + repo_key + '" + repo_value:')
+      console.log(repo_value)
+      if(account === account_key && repo === repo_key) {
+        console.log('Creating list of issues...')
+        let repo_issues = Object(repo_value)['issues_open']
+        console.log('my_issues:')
+        console.log(repo_issues)
+        Object.entries(repo_issues || {}).map(([issue_key, issue_value]) => {
+          issue_id_strings.push('#' + issue_key + ' ' + issue_value)
+          console.log("'#' + key2 + ' ' + value2:" + '#' + issue_key + ' ' 
+                    + issue_value)
+        })
+      }
+      else {
+        repo_names.push(repo_key)
+      }
+    })
+    console.log('Done!')
+  })
+  console.log("repos:")
+  console.log(repo_names)
+  console.log("issues:")
+  console.log(issue_id_strings)
+  return [repo_names, issue_id_strings]
+}
 
 // Checks if the issue_num_title starts off with #mission_number_string (i.e #123).
 export function IssueIsSelected(issue_num_title: string, mission_number_string: string) {
@@ -24,65 +69,26 @@ export function IssueIsSelected(issue_num_title: string, mission_number_string: 
 }
 
 export default function MissionSelector(props: { 
-    Config   : ModelConfigSync
-    ConfigSet: (o: ModelConfigSync) => void
+    ConfigSync    : ModelConfigSync
+    ConfigSyncSet: (o: ModelConfigSync) => void
     Syndicate: object
   }) {
   
-  const { Config, ConfigSet, Syndicate } = props
-  let { account, mission, repo } = Config
+  const { ConfigSync, ConfigSyncSet, Syndicate } = props
+  let { account, mission_ids, repo } = ConfigSync
   console.log('MissionSelector: account:"' + account + '" repo:"' + repo
-            + '" mission:"' + mission + '"')
+            + '" mission:"' + mission_ids + '"')
   console.log('Config:')
-  console.log(Config)
+  console.log(ConfigSync)
   console.log("Syndicate:")
   console.log(Syndicate)
   console.log("repo:")
   console.log(repo)
   
-  let repos: string[] = []
-  let issues: string[] = []
+  if(account == undefined || repo == undefined || mission_ids == undefined)
+    return <div>Config == null</div>
   
-  //const [ Account, AccountSet ] = useState(Config.account)
-
-  console.log('Iterating through Syndicates...')
-  Object.entries(Syndicate || {}).forEach(([account_key, account_value]) => {
-    if(account != account_key && account != 'All') return
-    console.log('Processing entries for account:' + account + ' s_key:' + account_key)
-    //Accounts.push(key)
-    let Repos = Object(account_value)['Repos']
-    console.log('Account:"' + 
-      Object.keys(Syndicate).find(key => Syndicate[key] === account_value) + '"')
-    console.assert(Repos != undefined)
-    console.log('Repos:')
-    console.log(Repos)
-    console.log('Iterating through Repos:')
-    repos.push(repo ?? '.github')
-    Object.entries(Repos || {}).forEach(([repo_key, repo_value]) => {
-      console.log('key:"' + repo_key + '" + repo_value:')
-      console.log(repo_value)
-      if(account === account_key && repo === repo_key) {
-        console.log('Creating list of issues...')
-        let repo_issues = Object(repo_value)['issues_open']
-        console.log('my_issues:')
-        console.log(repo_issues)
-        Object.entries(repo_issues || {}).map(([issue_key, issue_value]) => {
-          issues.push('#' + issue_key + ' ' + issue_value)
-          console.log("'#' + key2 + ' ' + value2:" + '#' + issue_key + ' ' 
-                    + issue_value)
-        })
-      }
-      else {
-        repos.push(repo_key)
-      }
-    })
-    console.log('Done!')
-  })
-  console.log("repos:")
-  console.log(repos)
-  console.log("issues:")
-  console.log(issues)
-
+  let [repos, issues] = ListReposAndIssues(Syndicate, account, repo)
 
   return <div className="MissionSelector w-lg w-full max-w-lg">
     <div id='AccountSelector'>
@@ -90,11 +96,10 @@ export default function MissionSelector(props: {
       <select name="Accounts" id="Accounts" className='max-w-fit'
         onChange={(e) => {
           console.log("Changing Account:" + e.target.value)
-          ConfigSet({...Config, account: e.target.value})
+          ConfigSyncSet({...ConfigSync, account: e.target.value})
       }} value={account}>
       { Object.keys(Syndicate).map((key) => (
-        <option value={key} selected={(key == account) ? true : false}
-          key={LLIDNextHex()}>
+        <option value={key} key={LLIDNextHex()}>
           {key}
         </option>
       ))}
@@ -104,34 +109,33 @@ export default function MissionSelector(props: {
     <div id='RepoSelector'>
       <label htmlFor="Repos">Repo:</label>
       <select name="Repos" id="Repos" className='max-w-fit'
-        onChange={(e) => {
+        onChange={e => {
           console.log("Changing Repo:" + e.target.value)
-          const ConfigNew = {...Config, account: Config.account, repo: e.target.value}
+          const ConfigNew = {...ConfigSync, account: ConfigSync.account, repo: e.target.value}
           ModelConfigSyncSet(ConfigNew).then(() => {
-            ConfigSet(ConfigNew)
+            ConfigSyncSet(ConfigNew)
           })
-        }} value={account}>
+        }} value={repo}>
         { repos.map((key) => (
-          <option value={key} selected={(key === repo) ? true : false}
+          <option value={key}
             key={LLIDNextHex()}>
             {key}
           </option>
         ))}
       </select>
     </div>
-    <div id='IssueSelector'>
-      <label htmlFor="Issues">Issues:</label>
-      <select name="Issues" id="Issues" className='max-w-fit'
+    <div id='MissionSelector'>
+      <label htmlFor="Missions">Missions:</label>
+      <select name="Missions" id="Missions" className='max-w-fit'
         onChange={(e) => {
           console.log(e.target.value);
-          const ConfigNew = {...Config, mission_ids: e.target.value}
+          const ConfigNew = {...ConfigSync, mission_ids: e.target.value}
           ModelConfigSyncSet(ConfigNew).then(() => {
-            ConfigSet(ConfigNew)
+            ConfigSyncSet(ConfigNew)
           })
-        }} value={mission}>
+        }} value={mission_ids}>
         { issues.map((issue_num_title) => (
-          <option value={issue_num_title} 
-              selected={IssueIsSelected(issue_num_title, mission.toString())}
+          <option value={issue_num_title}
               key={LLIDNextHex()}>
             {issue_num_title}
           </option>

@@ -5,6 +5,8 @@ ModelConfigSyncGet, ModelConfigSyncSet, ModelIssueInit, ModelIssueSet,
 ModelMissionInit, ModelMissionSet, ModelSessionInit, ModelSessionSet,
 ModelSyndicateInit, ModelSyndicateSet } from '../Model'
 
+import { ASessionInit } from '../../Lib/Model'
+
 console.log("[Background.ts]")
 
  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -29,7 +31,7 @@ chrome.runtime.onInstalled.addListener(() => {
   CommandStructureSet(CommandStructureInit)
   ModelIssueSet(ModelIssueInit)
   ModelMissionSet(ModelMissionInit)
-  ModelSessionSet(ModelSessionInit)
+  ModelSessionSet(ASessionInit)
   ModelSyndicateSet(ModelSyndicateInit)
 
   chrome.alarms.create("Update", {

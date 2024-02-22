@@ -1,5 +1,7 @@
 // Copyright AStartup; license at https://github.com/AStartupMCC
 
+import { ASession } from '../../Lib/Model'
+
 export const UsernameInit = 'CookingWithCale'
 
 // Model configuration settings that get synced with the browser.
@@ -8,7 +10,6 @@ export type ModelConfigSync = {
   content_scripts: boolean    //< Content scripts enabled.
   me?: string                 //< The user's Username.
   metric_units?: boolean      //< Standard (true) or Imperial units.
-  mission: number             //< Current mission number.
   mission_ids?: string        //< Current mission ID string.
   repo?: string               //< Current repo.
   session?: number            //< Current session number (zero means clocked out).
@@ -21,53 +22,35 @@ export type ModelConfigLocal = {
   modal_state: number         //< State of the modal.
   // Options
   modal_visible: boolean      //< Modal is visible flag.
+  mission: number             //< Selected mission number.
+  repo?: string               //< Selected repo.
+  session?: number            //< Selected session number.
 }
 
-const SessionFocusLengthMax = 100 //< Max length of a session focus heading.
+// An Incident Command System or similar structure meta model.
+export type ACommandStructure = {
+  uid: string                 //< 128-bit linear id.
+  idx: number                 //< 64-bit packed inode index.
+  name: string                //< Command structure name.
+  key: string                 //< The unique key of the command structure.
+  description: string         //< Description of the command structure.
+  contacts: string            //< Point contacts.
+  date_created: Date          //< Date created.
+  date_modified: Date         //< Date modified.
+  meta: object                //< Command structure meta model.
+}
 
-// The Global App Model state.
+// The global app model state.
 export type ModelState = {
   config_sync?: ModelConfigSync   //< Synced model config settings.
   config_local?: ModelConfigLocal //< Local model config settings.
   command_structure?: Object  //< Meta model for the incident command structure.
-  issue?: Object              //< The current issue.
-  mission?: Object            //< The current mission.
-  session?: Object            //< Current session.
-  syndicate?: Object          //< All of the GitHubAccounts in the syndicate.
-}
-
-export type AMission = {
-  push_count: number           //< Number of times this project has bee pushed.
-}
-
-export type AProject = {
-  push_count: number           //< Number of times this project has bee pushed.
-}
-
-export type ACrew = {
-  handle: string                //< This syndicate member's unique handle.
-}
-
-export type ACommandRole = {
-  master: string,               //< Role master's handle.
-  contact: Object,              //< Contact information for this role.
-  supervisor_roles: string[],   //< List of supervisor roles.
-}
-
-export type ACommandStructure = {
-  rules: ACommandRole[]         //< List of the roles in the ICS. 
-}
-
-// @todo Document that if the master is an null then it is the IC. If it's an 
-// empty string then it's unfilled.
-
-export const ARoles = {}
-
-export type ASession = {
-  projects: Object        //< Projects worked on in this session.
-  issues: Object        //< Missions 
-  log: Object             //< Log for this session/...
-}
+  issue?: Object              //< Current issue.
+  mission?: Object            //< Current mission.
+  repo?: RepoGitHub           //< Current repository.
+  session?: ASession          //< Current session.
+  syndicate?: Object          //< GitHub accounts in the syndicate.
+}//< Projects worked on in this session.
 
 export type ContentFeed = {
   title: string           //< Title of the feed.
@@ -132,13 +115,15 @@ export const ModelConfigSyncInit: ModelConfigSync = {
   session_ids: '',
   account: 'AStarStartup',
   repo: 'AStartupMCC',
-  mission: 0,
   mission_ids: ''
 }
 
 export const ModelConfigLocalInit: ModelConfigLocal = {
   modal_visible: false,
   modal_state: 0,
+  mission: 0,
+  repo: '',
+  session: 0,
 }
 
 // Unpacks the account/repo#MissionNumber.ChildMission from the input string.
@@ -218,6 +203,25 @@ export function MissionStringUnpack(input: string) {
   return [ account, repo, parseInt(mission_number), child_mission ]
 }
 
+export function MissionSelectedString(syndicate: Object, account: string, repo: string, 
+  mission: number) {
+  let result = 'Error in MissionSelectedString'
+  result = syndicate[account]?.['Repos']?.[repo]?.['issues_open']?.
+    [mission.toString()]
+  return '#' + mission + ' ' + result
+  // const Account = syndicate[account]
+  // if(Account == undefined) return 'Account == undefined'
+  // const Repos = Account['Repos']
+  // if(Repos == undefined) return 'Repos == undefined'
+  // const Repo = Account[repo]
+  // if(Repo == undefined) return 'Repo == undefined'
+  // const IssuesOpen = Account['issues_open']
+  // if(IssuesOpen == undefined) return 'IssuesOpen == undefined'
+  // const MissionTitle = Account[mission.toString()]
+  // if(MissionTitle == undefined) return 'IssuesOpen[mission] == undefined'
+  // return '#' + mission + ' ' + MissionTitle
+}
+
 // The vanilla Incident Command System Structure.
 export const CommandStructureInit = {
   'command_roles': {
@@ -268,9 +272,12 @@ export type GitHubIssue = {
   open: boolean         //< Open (true) or closed (false).
 }
 
-export type GitHubRepo = {
-  visibility: boolean   //< visibility: public (true) or private (false).
-  issues_open: Object   //< All of the open issue tickets.
+export type RepoGitHub = {
+  account: string       //< Repo account.
+  name: string          //< Repo name.
+  visibility: boolean   //< Visibility: public (true) or private (false).
+  issue_count: number   //< The number of issues in the ITS.
+  issue_count_open: number  //< All of the open issue tickets.
 }
 
 export type GitHubAccount = {
@@ -358,13 +365,6 @@ export const ModelSyndicateInit: Object = {
         "visibility": false
       },
       "OBSTouchGIMP": {
-        "issues_open": {
-          "1": "Session.Next.Monday",
-          "2": "Session.Next.Tuesday"
-        },
-        "visibility": false
-      },
-      "Typecraft": {
         "issues_open": {
           "1": "Session.Next.Monday",
           "2": "Session.Next.Tuesday"
@@ -680,7 +680,7 @@ export function ModelConfigSyncSet(config: ModelConfigSync): Promise<void> {
 export function CommandStructureGet(): Promise<Object> {
   const keys: ModelKeys[] = ['command_structure']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (state: ModelState) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
       resolve(state.command_structure ?? CommandStructureInit)
     })
   })
@@ -691,7 +691,35 @@ export function CommandStructureSet(command_structure: Object): Promise<void> {
     command_structure,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
+    chrome.storage.sync.set(Values, () => {
+      resolve()
+    })
+  })
+}
+
+export const RepoGithubDefault: RepoGitHub = {
+  account: '',
+  name: '',
+  visibility: false,
+  issue_count: 0,
+  issue_count_open: 0,
+}
+
+export function ModelRepoGet(): Promise<RepoGitHub> {
+  const keys: ModelKeys[] = ['repo']
+  return new Promise((resolve) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
+      resolve(state.repo ?? RepoGithubDefault)
+    })
+  })
+}
+
+export function ModelRepoSet(repo: RepoGitHub): Promise<void> {
+  const Values: ModelState = {
+    repo,
+  }
+  return new Promise((resolve) => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })
@@ -700,7 +728,7 @@ export function CommandStructureSet(command_structure: Object): Promise<void> {
 export function ModelIssueGet(): Promise<Object> {
   const keys: ModelKeys[] = ['issue']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (state: ModelState) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
       resolve(state.issue ?? {})
     })
   })
@@ -711,7 +739,7 @@ export function ModelIssueSet(issue: Object): Promise<void> {
     issue,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })
@@ -720,7 +748,7 @@ export function ModelIssueSet(issue: Object): Promise<void> {
 export function ModelMissionGet(): Promise<Object> {
   const keys: ModelKeys[] = ['mission']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (state: ModelState) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
       resolve(state.mission ?? {})
     })
   })
@@ -737,18 +765,18 @@ export function ModelMissionSet(mission: Object): Promise<void> {
     mission,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })
 }
 
-export function ModelSessionSet(session: Object): Promise<void> {
+export function ModelSessionSet(session: ASession): Promise<void> {
   const Values: ModelState = {
     session,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })
@@ -757,7 +785,7 @@ export function ModelSessionSet(session: Object): Promise<void> {
 export function ModelSyndicateGet(): Promise<Object> {
   const keys: ModelKeys[] = ['syndicate']
   return new Promise((resolve) => {
-    chrome.storage.local.get(keys, (state: ModelState) => {
+    chrome.storage.sync.get(keys, (state: ModelState) => {
       resolve(state.syndicate ?? ModelSyndicateInit)
     })
   })
@@ -768,7 +796,7 @@ export function ModelSyndicateSet(syndicate: Object): Promise<void> {
     syndicate,
   }
   return new Promise((resolve) => {
-    chrome.storage.local.set(Values, () => {
+    chrome.storage.sync.set(Values, () => {
       resolve()
     })
   })
