@@ -19,10 +19,11 @@ export type ModelConfigSync = {
 
 // Local model configuration settings.
 export type ModelConfigLocal = {
+  account?: string            //< Selected account.
+  mission_ids?: string        //< Selected mission.
   modal_state: number         //< State of the modal.
   // Options
   modal_visible: boolean      //< Modal is visible flag.
-  mission: number             //< Selected mission number.
   repo?: string               //< Selected repo.
   session?: number            //< Selected session number.
 }
@@ -119,9 +120,10 @@ export const ModelConfigSyncInit: ModelConfigSync = {
 }
 
 export const ModelConfigLocalInit: ModelConfigLocal = {
+  account: '',
+  mission_ids: '',
   modal_visible: false,
   modal_state: 0,
-  mission: 0,
   repo: '',
   session: 0,
 }

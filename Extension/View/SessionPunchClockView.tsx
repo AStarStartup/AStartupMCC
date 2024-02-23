@@ -3,20 +3,34 @@
 import React, { useState } from 'react'
 const { TimestampSeconds } = require('linearid')
 import MissionSelector from './MissionSelector'
-import { ModelConfigSync, ModelConfigSyncSet } from '../Model'
+import { ModelConfigLocal, ModelConfigLocalSet, ModelConfigSync,
+  ModelConfigSyncSet } from '../Model'
 
 export default function SessionPunchClockViewView(props: {
+  ConfigLocal   : ModelConfigLocal
+  ConfigLocalSet: (o: ModelConfigLocal) => void
   ConfigSync   : ModelConfigSync
   ConfigSyncSet: (o: ModelConfigSync) => void
+  ModelConfigLocalSet: (config: ModelConfigLocal) => Promise<void>
+  ModelConfigSyncSet : (config: ModelConfigSync) => Promise<void>
   IsSaving: boolean
   Syndicate: object
 }) {
-  const { ConfigSync, ConfigSyncSet, IsSaving, Syndicate } = props
+  const { ConfigLocal, ConfigLocalSet, ConfigSync, ConfigSyncSet, 
+    IsSaving, Syndicate } = props
   let { session } = ConfigSync
   if(session == undefined) return <div>undefined</div>
   const [MissionHeading, MissionHeadingSet] = useState('')
   const [SessionHeading, SessionHeadingSet] = useState('')
   const [SessionNumber, SessionNumberSet]   = useState(0)
+
+  const CanCancelMissionSwitch = ConfigLocal.account != ConfigSync.account ||
+    ConfigLocal.mission_ids != ConfigSync.mission_ids ||
+    ConfigLocal.repo != ConfigSync.repo
+
+    const OtherMissionSelected = ConfigLocal.account != ConfigSync.account &&
+      ConfigLocal.mission_ids != ConfigSync.mission_ids &&
+      ConfigLocal.repo != ConfigSync.repo
 
   function TimesheetPunchHandle () {
     if (session == undefined) return
@@ -95,7 +109,29 @@ export default function SessionPunchClockViewView(props: {
       />
     </div>
     }
-    <MissionSelector ConfigSync={ConfigSync} ConfigSyncSet={ConfigSyncSet} 
+    <MissionSelector ConfigLocal={ConfigLocal} ConfigLocalSet=
+      {ConfigLocalSet} ModelConfigSyncSet={ModelConfigSyncSet}
       Syndicate={Syndicate} />
+    { CanCancelMissionSwitch &&  
+    <button onClick={() => {
+      const ConfigNew = { ...ConfigLocal, account: ConfigSync.account, 
+        repo: ConfigSync.repo, mission_ids: ConfigSync.mission_ids }
+      console.log('')
+      ConfigLocalSet(ConfigNew)
+      ModelConfigLocalSet(ConfigNew)
+    }}>Cancel</button>
+    }
+    { OtherMissionSelected && 
+    <button onClick={() => {
+      const Timestamp = TimestampSeconds()
+      let {account, mission_ids, repo} = ConfigLocal
+      const ConfigNew = { ...ConfigSync, account: account, 
+        repo: repo, mission_ids: mission_ids }
+      console.log(new Date(Timestamp * 1000) + ': Starting mission ' + account + '/' + repo + mission_ids)
+      ConfigSyncSet(ConfigNew)
+      ModelConfigSyncSet(ConfigNew)
+    }}>Start mission</button>
+    }
+
   </div>
 }

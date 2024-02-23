@@ -1,6 +1,6 @@
 {
   "name": "astartup-mcc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Mission-driven development startup control center Chrome extension and OBS live coding, timesheet logging, employee monitoring, and video creation tool with IMUL, Script2, and pen and paper.",
   "main": "index.js",
   "scripts": {
