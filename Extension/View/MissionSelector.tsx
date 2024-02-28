@@ -1,7 +1,7 @@
 // Copyright AStartup; license at https://github.com/AStarStartup/AStartupMCC
 
 import React from 'react'
-import { RepoGitHub, ModelConfigSync, ModelConfigSyncSet 
+import { ModelConfigSync, ModelConfigLocal, ModelConfigLocalSet 
 } from '../Model'
 
 const { LLIDNextHex } = require('linearid')
@@ -69,24 +69,24 @@ export function IssueIsSelected(issue_num_title: string, mission_number_string: 
 }
 
 export default function MissionSelector(props: { 
-    ConfigSync    : ModelConfigSync
-    ConfigSyncSet: (o: ModelConfigSync) => void
+    ConfigLocal    : ModelConfigLocal
+    ConfigLocalSet: (o: ModelConfigLocal) => void
+    ModelConfigSyncSet : (config: ModelConfigSync) => Promise<void>
     Syndicate: object
   }) {
-  
-  const { ConfigSync, ConfigSyncSet, Syndicate } = props
-  let { account, mission_ids, repo } = ConfigSync
+  const { ConfigLocal, ConfigLocalSet, Syndicate } = props
+  let { account, mission_ids, repo } = ConfigLocal
   console.log('MissionSelector: account:"' + account + '" repo:"' + repo
             + '" mission:"' + mission_ids + '"')
   console.log('Config:')
-  console.log(ConfigSync)
+  console.log(ConfigLocal)
   console.log("Syndicate:")
   console.log(Syndicate)
   console.log("repo:")
   console.log(repo)
   
   if(account == undefined || repo == undefined || mission_ids == undefined)
-    return <div>Config == null</div>
+    return <div>undefined</div>
   
   let [repos, issues] = ListReposAndIssues(Syndicate, account, repo)
 
@@ -96,7 +96,7 @@ export default function MissionSelector(props: {
       <select name="Accounts" id="Accounts" className='max-w-fit'
         onChange={(e) => {
           console.log("Changing Account:" + e.target.value)
-          ConfigSyncSet({...ConfigSync, account: e.target.value})
+          ConfigLocalSet({...ConfigLocal, account: e.target.value})
       }} value={account}>
       { Object.keys(Syndicate).map((key) => (
         <option value={key} key={LLIDNextHex()}>
@@ -111,9 +111,10 @@ export default function MissionSelector(props: {
       <select name="Repos" id="Repos" className='max-w-fit'
         onChange={e => {
           console.log("Changing Repo:" + e.target.value)
-          const ConfigNew = {...ConfigSync, account: ConfigSync.account, repo: e.target.value}
-          ModelConfigSyncSet(ConfigNew).then(() => {
-            ConfigSyncSet(ConfigNew)
+          const ConfigNew = {...ConfigLocal, account: ConfigLocal.account, 
+                             repo: e.target.value}
+          ModelConfigLocalSet(ConfigNew).then(() => {
+            ConfigLocalSet(ConfigNew)
           })
         }} value={repo}>
         { repos.map((key) => (
@@ -128,10 +129,10 @@ export default function MissionSelector(props: {
       <label htmlFor="Missions">Missions:</label>
       <select name="Missions" id="Missions" className='max-w-fit'
         onChange={(e) => {
-          console.log(e.target.value);
-          const ConfigNew = {...ConfigSync, mission_ids: e.target.value}
-          ModelConfigSyncSet(ConfigNew).then(() => {
-            ConfigSyncSet(ConfigNew)
+          console.log(e.target.value)
+          const ConfigNew = {...ConfigLocal, mission_ids: e.target.value}
+          ModelConfigLocalSet(ConfigNew).then(() => {
+            ConfigLocalSet(ConfigNew)
           })
         }} value={mission_ids}>
         { issues.map((issue_num_title) => (
