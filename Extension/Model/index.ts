@@ -22,7 +22,6 @@ export type ModelConfigLocal = {
   account?: string            //< Selected account.
   mission_ids?: string        //< Selected mission.
   modal_state: number         //< State of the modal.
-  // Options
   modal_visible: boolean      //< Modal is visible flag.
   repo?: string               //< Selected repo.
   session?: number            //< Selected session number.
