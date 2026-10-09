@@ -3,10 +3,8 @@ name: Bug report
 about: Create a report to help us improve
 title: ''
 labels: ''
-assignees: 'CookingWithCale'
+assignees: ''
 ---
-# 
-
 ## Problem
 
 The bug I am reporting is...
@@ -30,8 +28,8 @@ If applicable, add screenshots to help explain your problem.
 
 ### Platform
 
- - OS: [e.g. Windows 10 2004]
- - Version [e.g. 0.6.1]
+- OS: [e.g. Windows 10 2004]
+- Version [e.g. 0.6.1]
 
 ### Context
 
@@ -44,19 +42,3 @@ The solution to the bug is...
 ### File Affected
 
 1. `*.*`
-
-## Hierarchy
-
-* #1
-
-## Tags
-
-RequestFeature
-
-## Sessions
-
-* CookingWithCale/.github#9
-
-## License
-
-Copyright [AStartup](https://astartup.net); all rights reserved.

@@ -1,14 +1,14 @@
 ---
 name: Change
-about: A proposed breaking change to the infrastructure.
+about: A breaking change to the infrastructure.
 title: 'Change'
 labels: ''
-assignees: 'CookingWithCale'
+assignees: 'AStarCale'
 ---
-#
+## Problem
 
+The problem that is so great it requires a Change with Change Control Management is...
 
+## Solution
 
-## License
-
-Copyright [AStartup](https://astartup.net); all rights reserved.
+The solution is...
