@@ -1,15 +1,10 @@
 ---
 name: Incident
 about: A Incident Command System incident; i.e. a real-world event with time, place, etc.
-title: 'Incident @2024-'
+title: 'Incident @20'
 labels: ''
-assignees: 'CookingWithCale'
+assignees: 'AStarCale'
 ---
-
-# IncidentTag
-
-
-
 ## Time
 
 
@@ -23,6 +18,8 @@ assignees: 'CookingWithCale'
 
 ## Incident Structure
 
-## License
 
-Copyright [AStartup](https://astartup.net); all rights reserved.
+
+## A
+
+
